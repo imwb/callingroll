@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    >
 
     <RelativeLayout
         android:id="@+id/layout_img"
@@ -12,10 +14,12 @@
         android:layout_marginTop="20dp">
 
         <ImageView
-            android:layout_width="280dp"
+            android:layout_width="wrap_content"
             android:layout_height="280dp"
             android:layout_centerInParent="true"
-            android:background="@android:color/holo_blue_dark" />
+            android:src="@drawable/icon_calling"
+
+             />
     </RelativeLayout>
 
     <LinearLayout
@@ -30,31 +34,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="帐号"
+            app:met_textColorHint="@android:color/darker_gray"
+            android:singleLine="true"
             android:textSize="14sp"
-            app:met_primaryColor="@android:color/holo_blue_dark"
-            app:met_underlineColor="@android:color/holo_blue_dark"
             app:met_iconLeft="@drawable/ic_person"
-            />
+            app:met_primaryColor="@android:color/holo_blue_dark"
+            app:met_underlineColor="@android:color/holo_blue_dark" />
+
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="密码"
+            app:met_textColorHint="@android:color/darker_gray"
+            android:singleLine="true"
             android:textSize="14sp"
-            app:met_primaryColor="@android:color/holo_blue_dark"
-            app:met_underlineColor="@android:color/holo_blue_dark"
             app:met_iconLeft="@drawable/ic_lock_64"
-            />
-        <Button
-            android:layout_marginTop="10dp"
+            app:met_primaryColor="@android:color/holo_blue_dark"
+            app:met_underlineColor="@android:color/holo_blue_dark" />
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_dark"
-            android:text="登录"
-            android:gravity="center"
-            android:textSize="18sp"
-            />
+            android:text="登    录"
+            android:textSize="7sp">
 
+        </com.gc.materialdesign.views.ButtonRectangle>
+
+
+        <com.gc.materialdesign.views.ButtonFlat
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/holo_blue_dark"
+            android:text="注册一个帐号">
+
+        </com.gc.materialdesign.views.ButtonFlat>
 
     </LinearLayout>
 </RelativeLayout>
