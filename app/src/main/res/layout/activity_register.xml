@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.wb.calling.activity.RegisterActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/ToolBarColor"
+            app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="注册" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/radgrup_type"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_stuent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/contentColor"
+                android:checked="true"
+                android:text="学生" />
+
+            <RadioButton
+                android:id="@+id/radio_teacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:buttonTint="@color/contentColor"
+                android:text="教师" />
+        </RadioGroup>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edt_username"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="用户名(真实的学号/工号)"
+            android:inputType="text"
+            app:met_autoValidate="true"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/edPrimaryColor"
+            app:met_textColor="@color/material_blue_grey_800"
+            app:met_underlineColor="@color/contentColor" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edt_password"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="密码"
+            android:inputType="textPassword"
+            app:met_autoValidate="true"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+
+            app:met_primaryColor="@color/edPrimaryColor"
+            app:met_textColor="@color/material_blue_grey_800"
+            app:met_underlineColor="@color/contentColor" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edt_name"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="姓名"
+            android:inputType="text"
+            app:met_autoValidate="true"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/edPrimaryColor"
+            app:met_textColor="@color/material_blue_grey_800"
+            app:met_underlineColor="@color/contentColor" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edt_email"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="邮箱"
+            android:inputType="textEmailAddress"
+            app:met_autoValidate="true"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/edPrimaryColor"
+            app:met_textColor="@color/material_blue_grey_800"
+            app:met_underlineColor="@color/contentColor" />
+
+        <com.gc.materialdesign.views.ButtonRectangle
+
+            android:id="@+id/btn_register"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@color/contentColor"
+            android:text="注    册"
+            android:textSize="7sp">
+
+        </com.gc.materialdesign.views.ButtonRectangle>
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

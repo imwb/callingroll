@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
-    >
+    android:background="@drawable/bg">
 
     <RelativeLayout
         android:id="@+id/layout_img"
@@ -15,11 +14,11 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="280dp"
+            android:layout_height="300dp"
             android:layout_centerInParent="true"
             android:src="@drawable/icon_calling"
 
-             />
+            />
     </RelativeLayout>
 
     <LinearLayout
@@ -27,6 +26,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/layout_img"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -34,11 +34,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="帐号"
-            app:met_textColorHint="@android:color/darker_gray"
+            android:inputType=""
             android:singleLine="true"
-            android:textSize="14sp"
+            android:textSize="16sp"
+            app:met_textColor="@android:color/white"
             app:met_iconLeft="@drawable/ic_person"
             app:met_primaryColor="@android:color/holo_blue_dark"
+            app:met_textColorHint="@android:color/darker_gray"
             app:met_underlineColor="@android:color/holo_blue_dark" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -46,11 +48,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="密码"
-            app:met_textColorHint="@android:color/darker_gray"
+            android:inputType="textPassword"
             android:singleLine="true"
-            android:textSize="14sp"
+            android:textSize="16sp"
+            app:met_textColor="@android:color/white"
             app:met_iconLeft="@drawable/ic_lock_64"
             app:met_primaryColor="@android:color/holo_blue_dark"
+            app:met_textColorHint="@android:color/darker_gray"
             app:met_underlineColor="@android:color/holo_blue_dark" />
 
         <com.gc.materialdesign.views.ButtonRectangle

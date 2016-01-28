@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ToolBarColor">#0000AA</color>
+    <color name="StatusBarColor">#00008B</color>
+    <color name="edPrimaryColor">#FF7F24</color>
+    <color name="contentColor">#1C86EE</color>
+</resources>
