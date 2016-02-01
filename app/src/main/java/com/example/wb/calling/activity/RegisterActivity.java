@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.RadioGroup;
 
 import com.example.wb.calling.R;
+import com.example.wb.calling.entry.User;
+import com.example.wb.calling.manager.UserManager;
 import com.example.wb.calling.utils.RegexUtil;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -21,14 +22,14 @@ import java.util.regex.Pattern;
 
 import static com.example.wb.calling.R.id.btn_register;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private String username;
     private String password;
     private String name;
     private String email;
-
+    private Integer type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,13 +51,19 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radgrup_type);
+        int id = radioGroup.getCheckedRadioButtonId();
+        if(id == R.id.radio_stuent){
+            type = 1;
+        }else {
+            type = 0;
+        }
         final MaterialEditText usernameEdt = (MaterialEditText) findViewById(R.id.edt_username);
         usernameEdt.addValidator(new METValidator("请输入正确的用户名") {
             @Override
             public boolean isValid(@NonNull CharSequence text, boolean isEmpty) {
                 if(RegexUtil.isIDCode(text.toString())){
                     username = text.toString();
-                    Log.d("name",username);
                     return true;
                 }else {
                     return false;
@@ -115,15 +122,18 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(usernameEdt.validate() && pwEdt.validate() && nameEdt.validate()
                         && emailEdt.validate()){
-                    Toast.makeText(RegisterActivity.this,username+password+name+email,Toast.LENGTH_SHORT)
-                            .show();
+                    User user = new User();
+                    user.setName(name);
+                    user.setUsername(username);
+                    user.setPassword(password);
+                    user.setType(type);
+                    user.setEmail(email);
+                    UserManager.getInstance(RegisterActivity.this).registerUser(user);
                 }else {
-                    Toast.makeText(RegisterActivity.this,"请核对注册信息",Toast.LENGTH_SHORT)
-                            .show();
+                    toast("请核对注册信息");
                 }
             }
         });
-
     }
 
 }

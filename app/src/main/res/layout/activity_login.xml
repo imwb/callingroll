@@ -30,13 +30,14 @@
         android:orientation="vertical">
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edt_accout"
+            android:id="@+id/edt_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="帐号"
             android:inputType=""
             android:singleLine="true"
             android:textSize="16sp"
+            app:met_autoValidate="true"
             app:met_textColor="@android:color/white"
             app:met_iconLeft="@drawable/ic_person"
             app:met_primaryColor="@android:color/holo_blue_dark"
@@ -51,6 +52,7 @@
             android:inputType="textPassword"
             android:singleLine="true"
             android:textSize="16sp"
+            app:met_autoValidate="true"
             app:met_textColor="@android:color/white"
             app:met_iconLeft="@drawable/ic_lock_64"
             app:met_primaryColor="@android:color/holo_blue_dark"
@@ -67,16 +69,14 @@
 
         </com.gc.materialdesign.views.ButtonRectangle>
 
-
-        <com.gc.materialdesign.views.ButtonFlat
+        <Button
             android:id="@+id/btn_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_gravity="center"
-            android:background="@android:color/holo_blue_dark"
-            android:text="注册一个帐号">
-
-        </com.gc.materialdesign.views.ButtonFlat>
-
+            android:text="注册一个帐号"
+            android:textColor="@android:color/holo_blue_dark"
+            />
     </LinearLayout>
 </RelativeLayout>
