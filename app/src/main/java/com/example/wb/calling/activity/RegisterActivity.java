@@ -40,6 +40,7 @@ public class RegisterActivity extends BaseActivity {
 
     private void initview() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("注册");
         setSupportActionBar(toolbar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.StatusBarColor));

@@ -3,6 +3,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,7 +20,7 @@ import static com.example.wb.calling.R.id.btn_register;
 /**
  * Created by wb on 16/1/23.
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
     private Button regBtn;
     private ButtonRectangle loginBtn;
     private String username;
