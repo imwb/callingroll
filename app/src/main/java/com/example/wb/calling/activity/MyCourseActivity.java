@@ -1,57 +1,41 @@
 package com.example.wb.calling.activity;
 
-import android.os.Build;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.WindowManager;
 
 import com.example.wb.calling.R;
-import com.example.wb.calling.adapter.CallCourseAdapter;
-import com.example.wb.calling.adapter.ItemTouchHelperCallback;
+import com.example.wb.calling.adapter.CourseAdapter;
 import com.example.wb.calling.entry.Course;
+import com.yydcdut.sdlv.Menu;
+import com.yydcdut.sdlv.MenuItem;
+import com.yydcdut.sdlv.SlideAndDragListView;
 
 import java.util.ArrayList;
 
 /**
  * Created by wb on 16/2/1.
  */
-public class MainActivity extends BaseActivity {
+public class MyCourseActivity extends BaseActivity {
 
-    private DrawerLayout mDrawerLayout;
-    private Toolbar mToolbar;
-    private ActionBarDrawerToggle drawerToggle;
-    private RecyclerView callRecycler;
+    private SlideAndDragListView courseLv;
     private ArrayList<Course> courseList;
-    private CallCourseAdapter adapter;
-    private LinearLayoutManager mlayoutManager;
-
+    private CourseAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        setContentView(R.layout.activity_main);
-        inittoolbar();
-        initcall();
-        initMenu(1);
+        setContentView(R.layout.activity_mycourse);
+        inittoolbar("我的课程");
+        initMenu(2);
+        initList();
     }
 
-
-    private void initcall() {
-        callRecycler = (RecyclerView) findViewById(R.id.recycler_call);
-        mlayoutManager = new LinearLayoutManager(this);
-        mlayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        callRecycler.setLayoutManager(mlayoutManager);
-        callRecycler.setHasFixedSize(true);
-        callRecycler.setItemAnimator(new DefaultItemAnimator());
-
+    private void initList() {
+        courseLv = (SlideAndDragListView) findViewById(R.id.sdlv_course);
         courseList = new ArrayList<>();
         Course c1= new Course();
         c1.setCourse_id("0920313");
@@ -139,30 +123,31 @@ public class MainActivity extends BaseActivity {
         courseList.add(c11);
         courseList.add(c12);
 
-        adapter = new CallCourseAdapter(courseList);
+        adapter = new CourseAdapter(this,courseList);
 
-        callRecycler.setAdapter(adapter);
-        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(adapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(callRecycler);
+
+
+        Menu menu = new Menu(new ColorDrawable(Color.WHITE), false, 0);//第2个参数表示滑动item是否能滑的过量(true表示过量，就像Gif中显示的那样；false表示不过量，就像QQ中的那样)
+
+        menu.addItem(new MenuItem.Builder().setWidth(180)//单个菜单button的宽度
+                .setBackground(new ColorDrawable(getResources().getColor(R.color.menuItemDelete)))//设置菜单的背景
+                .setDirection(MenuItem.DIRECTION_RIGHT)
+                .setText("删除")//set text string
+                .setTextColor(Color.WHITE)//set text color
+                .setTextSize(16)//set text size
+                .build());
+
+        menu.addItem(new MenuItem.Builder().setWidth(180)
+                .setBackground(new ColorDrawable(getResources().getColor(R.color.menuTxtColor)))
+                .setText("修改")
+                .setDirection(MenuItem.DIRECTION_RIGHT)
+                .setTextColor(Color.WHITE)
+                .setTextSize(16)
+                .build());
+
+        courseLv.setMenu(menu);
+        courseLv.setAdapter(adapter);
     }
 
-    private void inittoolbar() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("点名");
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.StatusBarColor));
-        }
-
-        drawerToggle = new ActionBarDrawerToggle(
-                this,mDrawerLayout,mToolbar,
-                R.string.abc_action_bar_home_description,R.string.abc_action_bar_home_description_format
-        );
-
-        drawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(drawerToggle);
-    }
 }

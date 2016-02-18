@@ -13,7 +13,7 @@ public class Course extends BmobObject {
     private String teacher_name;
     private Boolean IsCall;
     private String student;
-
+    private String remarks;
     public String getCourse_id() {
         return course_id;
     }
@@ -44,6 +44,14 @@ public class Course extends BmobObject {
 
     public void setCourse_room_time(String course_room_time) {
         this.course_room_time = course_room_time;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public String getTeacher_name() {

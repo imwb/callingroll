@@ -1,5 +1,6 @@
 package com.example.wb.calling.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,12 @@ import com.example.wb.calling.R;
 import com.example.wb.calling.entry.Course;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by wb on 16/2/17.
  */
-public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.ViewHolder> {
+public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.ViewHolder> implements ItemTouchAdapter{
 
     ArrayList<Course> data;
 
@@ -45,7 +47,30 @@ public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.Vi
     public int getItemCount() {
         return data.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        if(fromPosition < toPosition){
+            for(int i = fromPosition; i < toPosition;i++){
+                Collections.swap(data,i,i+1);
+            }
+        }else {
+            for(int i = fromPosition; i > toPosition;i--){
+                Collections.swap(data,i,i--);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        data.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder{
+
+
         public TextView courseIdTxt;
         public TextView courseNameTxt;
         public TextView courseClassTxt;
@@ -57,5 +82,20 @@ public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.Vi
             courseClassTxt = (TextView) itemView.findViewById(R.id.txt_course_class);
             courseTimeTxt = (TextView) itemView.findViewById(R.id.txt_course_time);
         }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
+        }
+    }
+    interface ItemTouchHelperViewHolder {
+
+        void onItemSelected();
+        void onItemClear();
     }
 }

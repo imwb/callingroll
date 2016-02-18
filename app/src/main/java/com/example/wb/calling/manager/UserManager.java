@@ -1,5 +1,6 @@
 package com.example.wb.calling.manager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -64,7 +65,9 @@ public class UserManager {
                 editor.commit();
                 //引导页。。
                // editor.putBoolean("isFirst",false);
+
                 context.startActivity(new Intent(context, MainActivity.class));
+                ((Activity)context).finish();
 
             }
 
