@@ -29,6 +29,10 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     //sildeanddraglistview
     compile 'com.yydcdut.sdlv:sdlv:0.4.1@aar'
+    //floating action button
+    compile 'com.shamanland:fab:0.0.8'
+
+    //compile 'com.github.rey5137:material:1.2.2'
     compile project(':MaterialDesign')
     //bmob-push：Bmob的推送包
     compile 'cn.bmob.android:bmob-push:0.6'

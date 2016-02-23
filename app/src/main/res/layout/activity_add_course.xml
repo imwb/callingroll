@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <include layout="@layout/toolbar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edt_course_id"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="课程号"
+            android:inputType="text"
+            app:met_autoValidate="true"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/edPrimaryColor"
+            app:met_textColor="@color/material_blue_grey_800"
+            app:met_underlineColor="@color/contentColor" />
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edt_course_name"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="课程名称"
+            android:inputType="text"
+            app:met_autoValidate="true"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/edPrimaryColor"
+            app:met_textColor="@color/material_blue_grey_800"
+            app:met_underlineColor="@color/contentColor" />
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edt_course_time"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="时间教室"
+            android:inputType="text"
+            app:met_autoValidate="true"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/edPrimaryColor"
+            app:met_textColor="@color/material_blue_grey_800"
+            app:met_underlineColor="@color/contentColor" />
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edt_course_class"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="班级"
+            android:inputType="text"
+            app:met_autoValidate="true"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/edPrimaryColor"
+            app:met_textColor="@color/material_blue_grey_800"
+            app:met_underlineColor="@color/contentColor" />
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edt_course_remarks"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="备注"
+            android:inputType="text"
+            app:met_autoValidate="true"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/edPrimaryColor"
+            app:met_textColor="@color/material_blue_grey_800"
+            app:met_underlineColor="@color/contentColor" />
+        <Button
+            android:id="@+id/btn_add_roll"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonbg"
+            android:text="上传名单"
+            android:textColor="@color/write"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            />
+        <Button
+            android:id="@+id/btn_save_course"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonbg"
+            android:text="保存"
+            android:textColor="@color/write"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            />
+
+    </LinearLayout>
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar" />
+
+
+</LinearLayout>

@@ -3,6 +3,14 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- Actionbar color -->
+        <item name="colorPrimary">@color/ToolBarColor</item>
+        <!--Status bar color-->
+        <item name="colorPrimaryDark">@color/StatusBarColor</item>
+        <!--Window color-->
+        <item name="android:windowBackground">@color/write</item>
 
     </style>
 

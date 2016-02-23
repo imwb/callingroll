@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <permission
         android:name="cn.bmob.permission.push"
         android:protectionLevel="normal" />
@@ -40,8 +41,13 @@
             android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.MyCourseActivity" />
+        <activity
+            android:name=".activity.AddCourseActivity"
+            android:label="@string/title_activity_add_course"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activity.AddStudentActivity"></activity>
     </application>
 
 </manifest>

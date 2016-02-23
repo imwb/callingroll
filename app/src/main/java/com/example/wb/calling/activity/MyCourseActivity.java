@@ -1,13 +1,16 @@
 package com.example.wb.calling.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.support.design.widget.FloatingActionButton;
+import android.view.View;
 
 import com.example.wb.calling.R;
 import com.example.wb.calling.adapter.CourseAdapter;
 import com.example.wb.calling.entry.Course;
+import com.shamanland.fab.ShowHideOnScroll;
 import com.yydcdut.sdlv.Menu;
 import com.yydcdut.sdlv.MenuItem;
 import com.yydcdut.sdlv.SlideAndDragListView;
@@ -22,16 +25,26 @@ public class MyCourseActivity extends BaseActivity {
     private SlideAndDragListView courseLv;
     private ArrayList<Course> courseList;
     private CourseAdapter adapter;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_mycourse);
-        inittoolbar("我的课程");
+        initToolbarAndDrawer("我的课程");
         initMenu(2);
+        initFab();
         initList();
+    }
+
+    private void initFab() {
+        fab = (FloatingActionButton) findViewById(R.id.fab_add_course);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyCourseActivity.this,AddCourseActivity.class));
+            }
+        });
     }
 
     private void initList() {
@@ -147,6 +160,8 @@ public class MyCourseActivity extends BaseActivity {
 
         courseLv.setMenu(menu);
         courseLv.setAdapter(adapter);
+
+        courseLv.setOnTouchListener(new ShowHideOnScroll(fab));
     }
 
 

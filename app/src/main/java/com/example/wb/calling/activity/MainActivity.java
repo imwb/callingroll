@@ -1,6 +1,5 @@
 package com.example.wb.calling.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -9,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.WindowManager;
 
 import com.example.wb.calling.R;
 import com.example.wb.calling.adapter.CallCourseAdapter;
@@ -35,10 +33,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
-        inittoolbar();
+        initToolbarAndDrawer("点名");
         initcall();
         initMenu(1);
     }
@@ -147,22 +143,5 @@ public class MainActivity extends BaseActivity {
         touchHelper.attachToRecyclerView(callRecycler);
     }
 
-    private void inittoolbar() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("点名");
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.StatusBarColor));
-        }
-
-        drawerToggle = new ActionBarDrawerToggle(
-                this,mDrawerLayout,mToolbar,
-                R.string.abc_action_bar_home_description,R.string.abc_action_bar_home_description_format
-        );
-
-        drawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(drawerToggle);
-    }
 }
