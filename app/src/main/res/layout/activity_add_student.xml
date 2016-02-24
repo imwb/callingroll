@@ -17,11 +17,14 @@
             android:id="@+id/list_student"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@color/iconColor"
+            android:dividerHeight="1dp"
             >
 
         </ListView>
 
         <LinearLayout
+            android:id="@+id/layout_student_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

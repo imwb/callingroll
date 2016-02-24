@@ -4,10 +4,10 @@
     <item>
         <shape android:shape="rectangle">
             <corners android:topLeftRadius="10dp"
-                android:topRightRadius="10dp"
-                android:bottomLeftRadius="3dp"
-                android:bottomRightRadius="3dp"/>
-            <solid android:color="@color/iconColor" />
+                android:topRightRadius="10dp" />
+            <solid android:color="@color/write" />
+            <stroke android:color="@color/iconColor"
+                android:width="1dp"/>
         </shape>
     </item>
 </selector>

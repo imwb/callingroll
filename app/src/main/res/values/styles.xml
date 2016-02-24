@@ -8,7 +8,7 @@
         <!-- Actionbar color -->
         <item name="colorPrimary">@color/ToolBarColor</item>
         <!--Status bar color-->
-        <item name="colorPrimaryDark">@color/StatusBarColor</item>
+        <!--<item name="colorPrimaryDark">@color/StatusBarColor</item>-->
         <!--Window color-->
         <item name="android:windowBackground">@color/write</item>
 
