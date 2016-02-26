@@ -11,6 +11,7 @@
     <TextView
         android:paddingLeft="4dp"
         android:id="@+id/list_text"
+        android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

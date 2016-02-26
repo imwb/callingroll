@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:layout_gravity="center">
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edt_stu_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="姓名"
+        android:inputType="text"
+        app:met_autoValidate="true"
+        app:met_clearButton="true"
+        app:met_floatingLabel="highlight"
+        app:met_primaryColor="@color/edPrimaryColor"
+        app:met_textColor="@color/material_blue_grey_800"
+        app:met_underlineColor="@color/contentColor" />
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edt_stu_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="学号"
+        android:inputType="text"
+        app:met_autoValidate="true"
+        app:met_clearButton="true"
+        app:met_floatingLabel="highlight"
+        app:met_primaryColor="@color/edPrimaryColor"
+        app:met_textColor="@color/material_blue_grey_800"
+        app:met_underlineColor="@color/contentColor" />
+</LinearLayout>

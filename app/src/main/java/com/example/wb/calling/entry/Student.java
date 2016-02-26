@@ -3,7 +3,7 @@ package com.example.wb.calling.entry;
 /**
  * Created by wb on 16/2/23.
  */
-public class Student {
+public class Student implements Comparable<Student>{
 
     String name;
     String number;
@@ -22,5 +22,10 @@ public class Student {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    @Override
+    public int compareTo(Student another) {
+        return this.number.compareTo(another.getNumber());
     }
 }

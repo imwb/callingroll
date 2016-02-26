@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -81,14 +80,14 @@ public class FileExplorerActivity extends AppCompatActivity {
                     if(e.isFile()) {
                         int dotIndex = e.getName().lastIndexOf(".");
                         String type = dotIndex < 0?"":e.getName().substring(dotIndex).toLowerCase();
-                        Log.d("type",type);
-                        if (type.equals(".xls") || type.equals(".xlsx")){
+//                        if (type.equals(".xls") || type.equals(".xlsx")){
+                        if (type.equals(".xls")){
                             Intent intent = new Intent();
-                            intent.putExtra("path","file://" + e.getPath());
+                            intent.putExtra("path",e.getPath());
                             setResult(RESULTDIR,intent);
                             finish();
                         }else {
-                            Toast.makeText(FileExplorerActivity.this,"请选择Excel文件",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FileExplorerActivity.this,"请选择Excel文件(.xls)",Toast.LENGTH_SHORT).show();
                         }
 
                     } else if(e.isDirectory()) {
