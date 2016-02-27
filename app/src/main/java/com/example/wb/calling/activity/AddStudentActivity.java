@@ -18,6 +18,8 @@ import com.example.wb.calling.R;
 import com.example.wb.calling.adapter.StudentAdapter;
 import com.example.wb.calling.entry.Student;
 import com.example.wb.calling.utils.RegexUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
 import com.shamanland.fab.ShowHideOnScroll;
@@ -40,16 +42,21 @@ import java.util.regex.Pattern;
 public class AddStudentActivity extends BaseActivity {
 
     private ListView stuLv;
-    private ArrayList<Student> students;
+    private ArrayList<Student> students = new ArrayList<>();
     private LinearLayout stumenuLayout;
     private Button importBtn;
     private Button addBtn;
+    private Button saveBtn;
     private StudentAdapter adapter;
-
+    static final int RESULTROLL = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_student);
+        String jstus = getIntent().getStringExtra("jstudents");
+        if(jstus != null && !jstus.isEmpty() ){
+            students = json2array(jstus);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initToolbar("学生名单");
@@ -73,64 +80,23 @@ public class AddStudentActivity extends BaseActivity {
                 addStudent();
             }
         });
+
+        saveBtn = (Button) findViewById(R.id.btn_save_roll);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("students",array2json(students));
+                setResult(RESULTROLL,intent);
+                finish();
+            }
+        });
     }
 
     private void initLv() {
         stuLv = (ListView) findViewById(R.id.list_student);
         stumenuLayout = (LinearLayout) findViewById(R.id.layout_student_menu);
-
-        students = new ArrayList<>();
-        final Student s1 = new Student();
-        s1.setName("吴比");
-        s1.setNumber("2012201223");
-        Student s2 = new Student();
-        s2.setName("吴比");
-        s2.setNumber("2012201223");
-        Student s3 = new Student();
-        s3.setName("吴比");
-        s3.setNumber("2012201223");
-        Student s4 = new Student();
-        s4.setName("吴比");
-        s4.setNumber("2012201223");
-        Student s5 = new Student();
-        s5.setName("吴比");
-        s5.setNumber("2012201223");
-        Student s6 = new Student();
-        s6.setName("吴比");
-        s6.setNumber("2012201223");
-        Student s7 = new Student();
-        s7.setName("吴比");
-        s7.setNumber("2012201223");
-        Student s8 = new Student();
-        s8.setName("吴比");
-        s8.setNumber("2012201223");
-        Student s9 = new Student();
-        s9.setName("吴比");
-        s9.setNumber("2012201223");
-        Student s10 = new Student();
-        s10.setName("吴比");
-        s10.setNumber("2012201223");
-        Student s11 = new Student();
-        s11.setName("吴比");
-        s11.setNumber("2012201223");
-        Student s12 = new Student();
-        s12.setName("吴比");
-        s12.setNumber("2012201223");
-        students.add(s1);
-        students.add(s2);
-        students.add(s3);
-        students.add(s4);
-        students.add(s5);
-        students.add(s6);
-        students.add(s7);
-        students.add(s8);
-        students.add(s9);
-        students.add(s10);
-        students.add(s11);
-        students.add(s12);
-
         adapter = new StudentAdapter(students, this);
-
         stuLv.setAdapter(adapter);
         stuLv.setOnTouchListener(new ShowHideOnScroll(stumenuLayout));
         stuLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -142,12 +108,13 @@ public class AddStudentActivity extends BaseActivity {
                 return false;
             }
         });
-
-
     }
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("students",array2json(students));
+        setResult(RESULTROLL,intent);
         finish();
     }
 
@@ -216,11 +183,9 @@ public class AddStudentActivity extends BaseActivity {
                         case 0:
                             double value = new Double(cell.getNumericCellValue());
                             number = String.valueOf(value);
-                            Log.d("0", number);
                             break;
                         case 1:
                             number = cell.getStringCellValue();
-                            Log.d("1", number);
                             break;
                         case 2:
                             break;
@@ -375,4 +340,24 @@ public class AddStudentActivity extends BaseActivity {
         Collections.sort(students);
         adapter.notifyDataSetChanged();
     }
+
+    /**
+     * 将 student 集合 转换为 json格式
+     * @param students
+     * @return jsonarray
+     */
+    private String array2json(ArrayList<Student> students){
+        Gson gson = new Gson();
+        return gson.toJson(students);
+    }
+    /**
+     * 将 student 集合 转换为 json格式
+     * @param str
+     * @return 集合
+     */
+    private ArrayList<Student> json2array(String str){
+        Gson gson = new Gson();
+        return gson.fromJson(str,new TypeToken<ArrayList<Student>>(){}.getType());
+    }
+
 }

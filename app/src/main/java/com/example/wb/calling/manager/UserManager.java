@@ -1,12 +1,9 @@
 package com.example.wb.calling.manager;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import com.example.wb.calling.activity.MainActivity;
 import com.example.wb.calling.entry.User;
 
 import cn.bmob.v3.listener.SaveListener;
@@ -50,37 +47,19 @@ public class UserManager {
         });
     }
 
-    public void login(final String username, final String pw){
+
+    /**
+     * 获取 当前用户 信息
+     * @param
+     */
+    public User getuserInfo(){
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(pw);
-
-        user.login(context, new SaveListener() {
-            @Override
-            public void onSuccess() {
-                SharedPreferences sp = context.getSharedPreferences("userinfo",Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("username",username);
-                editor.putString("password",pw);
-                editor.commit();
-                //引导页。。
-               // editor.putBoolean("isFirst",false);
-
-                context.startActivity(new Intent(context, MainActivity.class));
-                ((Activity)context).finish();
-
-            }
-
-            @Override
-            public void onFailure(int i, String s) {
-                switch (i){
-                    case 101:toast("帐号或密码错误");
-                        break;
-                }
-                Toast.makeText(context,"登录失败 : "+ i + "  " +s,Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
+        SharedPreferences sp = context.getSharedPreferences("userinfo",Context.MODE_PRIVATE);
+        user.setUsername(sp.getString("username",""));
+        user.setName(sp.getString("type",""));
+        user.setEmail(sp.getString("email",""));
+        user.setType(sp.getInt("type",0));
+        return user;
     }
     protected  void toast(String content){
         Toast.makeText(context,content,Toast.LENGTH_SHORT).show();

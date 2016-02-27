@@ -1,8 +1,6 @@
 package com.example.wb.calling.activity;
 
 
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
@@ -34,23 +32,11 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        initToolbar("注册");
         initview();
     }
 
     private void initview() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("注册");
-        setSupportActionBar(toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.StatusBarColor));
-        }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-            }
-        });
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radgrup_type);
         int id = radioGroup.getCheckedRadioButtonId();
@@ -129,7 +115,7 @@ public class RegisterActivity extends BaseActivity {
                     user.setPassword(password);
                     user.setType(type);
                     user.setEmail(email);
-                    UserManager.getInstance(RegisterActivity.this).registerUser(user);
+                    UserManager.getInstance(getApplicationContext()).registerUser(user);
                 }else {
                     toast("请核对注册信息");
                 }

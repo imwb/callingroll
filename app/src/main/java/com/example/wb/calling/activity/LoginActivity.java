@@ -1,4 +1,5 @@
 package com.example.wb.calling.activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,12 +9,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.example.wb.calling.R;
-import com.example.wb.calling.manager.UserManager;
+import com.example.wb.calling.entry.User;
 import com.example.wb.calling.utils.RegexUtil;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.SaveListener;
 
 import static com.example.wb.calling.R.id.btn_register;
 
@@ -21,24 +27,25 @@ import static com.example.wb.calling.R.id.btn_register;
  * Created by wb on 16/1/23.
  */
 public class LoginActivity extends AppCompatActivity {
+
     private Button regBtn;
     private ButtonRectangle loginBtn;
     private String username;
     private String password;
     private boolean isFirst = true;
     private SharedPreferences sp;
-    private UserManager userManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_login);
-        userManager = UserManager.getInstance(this);
         initView();
     }
 
     private void initView() {
+
         regBtn = (Button) findViewById(btn_register);
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,14 +55,19 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         sp = getSharedPreferences("userinfo",MODE_PRIVATE);
-        username = sp.getString("username","no");
-        password = sp.getString("password","no");
+        username = sp.getString("username","");
+        password = sp.getString("password","");
         Log.d("username",username);
         Log.d("pw",password);
-        if( !username.equals("no") && !password.equals("no")){
-            userManager.login(username,password);
+
+        final MaterialEditText usernameEdt = (MaterialEditText) findViewById(R.id.edt_account);
+        final MaterialEditText pwEdt = (MaterialEditText) findViewById(R.id.edt_password);
+
+        if( !username.isEmpty() && !password.isEmpty()){
+            usernameEdt.setText(username);
+            pwEdt.setText(password);
+            login(username,password);
         }else {
-            final MaterialEditText usernameEdt = (MaterialEditText) findViewById(R.id.edt_account);
             usernameEdt.addValidator(new METValidator("用户名格式不正确") {
                 @Override
                 public boolean isValid(@NonNull CharSequence text, boolean isEmpty) {
@@ -68,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-            final MaterialEditText pwEdt = (MaterialEditText) findViewById(R.id.edt_password);
             pwEdt.addValidator(new METValidator("请填写密码") {
                 @Override
                 public boolean isValid(@NonNull CharSequence text, boolean isEmpty) {
@@ -86,11 +97,63 @@ public class LoginActivity extends AppCompatActivity {
             loginBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    userManager.login(username,
-                            password);
+                    login(username,password);
                 }
             });
         }
 
+    }
+
+    /**
+     * 登录
+     * @param username
+     * @param pw
+     */
+    public void login(final String username, final String pw){
+        final User user = new User();
+        user.setUsername(username);
+        user.setPassword(pw);
+
+        user.login(this, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                User user = BmobUser.getCurrentUser(LoginActivity.this,User.class);
+                password = pw;
+                saveUserInfo(user);
+
+                //引导页。。
+                // editor.putBoolean("isFirst",false);
+                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                switch (i){
+                    case 101:toast("帐号或密码错误");
+                        break;
+                }
+                toast("登录失败 : "+ i + "  " +s);
+            }
+        });
+    }
+
+    /**
+     * 将用户信息保存到本地
+     * @param user
+     */
+    private void saveUserInfo(User user) {
+        SharedPreferences sp = LoginActivity.this.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("username",user.getUsername());
+        editor.putString("password",password);
+        editor.putString("name",user.getName());
+        editor.putString("email",user.getEmail());
+        editor.putInt("type",user.getType());
+        editor.commit();
+    }
+
+    private void toast(String content){
+        Toast.makeText(this,content,Toast.LENGTH_SHORT).show();
     }
 }

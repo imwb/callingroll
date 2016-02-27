@@ -2,6 +2,8 @@ package com.example.wb.calling.activity;
 
 import android.app.Application;
 
+import org.xutils.x;
+
 import cn.bmob.v3.Bmob;
 
 /**
@@ -9,9 +11,11 @@ import cn.bmob.v3.Bmob;
  */
 public class MyApp extends Application {
     public static final String APPID = "18e3c5746a84e4abcebb8ec8f5b96a0a";
+
     @Override
     public void onCreate() {
         super.onCreate();
         Bmob.initialize(getApplicationContext(),APPID);
+        x.Ext.init(this);
     }
 }

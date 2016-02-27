@@ -9,12 +9,13 @@
     android:paddingRight="10dp"
     android:paddingLeft="10dp"
     android:layout_gravity="center">
+
     <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edt_stu_name"
+        android:id="@+id/edt_stu_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="姓名"
+        android:hint="学号"
         android:inputType="text"
         app:met_autoValidate="true"
         app:met_clearButton="true"
@@ -23,11 +24,11 @@
         app:met_textColor="@color/material_blue_grey_800"
         app:met_underlineColor="@color/contentColor" />
     <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edt_stu_number"
+        android:id="@+id/edt_stu_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="学号"
+        android:hint="姓名"
         android:inputType="text"
         app:met_autoValidate="true"
         app:met_clearButton="true"
