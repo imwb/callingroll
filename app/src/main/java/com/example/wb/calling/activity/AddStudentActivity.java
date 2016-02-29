@@ -48,7 +48,7 @@ public class AddStudentActivity extends BaseActivity {
     private Button addBtn;
     private Button saveBtn;
     private StudentAdapter adapter;
-    static final int RESULTROLL = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +87,7 @@ public class AddStudentActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.putExtra("students",array2json(students));
-                setResult(RESULTROLL,intent);
+                setResult(RESULT_ROLL,intent);
                 finish();
             }
         });
@@ -114,7 +114,7 @@ public class AddStudentActivity extends BaseActivity {
     public void onBackPressed() {
         Intent intent = new Intent();
         intent.putExtra("students",array2json(students));
-        setResult(RESULTROLL,intent);
+        setResult(RESULT_ROLL,intent);
         finish();
     }
 

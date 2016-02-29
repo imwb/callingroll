@@ -16,10 +16,21 @@ import android.widget.Toast;
 
 import com.example.wb.calling.R;
 
+import org.xutils.x;
+
 /**
  * Created by wb on 16/2/1.
  */
 public class BaseActivity extends AppCompatActivity {
+
+    public static final int RESULT_ADD_COURSE = 1;
+    public static final int RESULT_ROLL = 2;
+    public static final int RESULT_UPDATE_COURSE = 3;
+
+    public static final int REQUEST_ADD_ROLL = 4;
+    public static final int REQUEST_UPDATE_COURSE = 5;
+    public static final int REQUEST_ADD_COURSE = 6;
+
     protected DrawerLayout mDrawerLayout;
     protected Toolbar mToolbar;
     protected ActionBarDrawerToggle drawerToggle;
@@ -40,6 +51,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        x.view().inject(this);
     }
 
     public void toast(String info) {

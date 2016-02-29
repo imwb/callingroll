@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.example.wb.calling.activity.AddCourseActivity;
 import com.example.wb.calling.entry.Course;
 
 import org.xutils.DbManager;
@@ -12,7 +13,9 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 
+import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by wb on 16/1/29.
@@ -55,6 +58,10 @@ public class CourseManager {
         }
     }
 
+    public void toast(String content){
+        Toast.makeText(context,content,Toast.LENGTH_SHORT).show();
+    }
+
     /**
      * 添加课程
      * @param course
@@ -69,6 +76,7 @@ public class CourseManager {
                 course.setId(course.getObjectId());
                 saveCourse(course);
                 toast("添加成功");
+                activity.setResult(AddCourseActivity.RESULT_ADD_COURSE);
                 activity.finish();
             }
 
@@ -100,7 +108,7 @@ public class CourseManager {
      * 获取数据库中所有课程
      * @param
      */
-    private ArrayList<Course> getAllCouresFromSqlite(){
+    public ArrayList<Course> getAllCouresFromSqlite(){
         DbManager db = x.getDb(daoConfig);
         ArrayList<Course> courses = new ArrayList<>();
         try {
@@ -110,8 +118,74 @@ public class CourseManager {
         }
         return  courses;
     }
-    private void toast(String content){
-        Toast.makeText(context,content,Toast.LENGTH_SHORT).show();
+
+    /**
+     * 根据 id 查询 course
+     * @param id
+     * @return
+     */
+    public Course getCourseByID(String id){
+        DbManager db = x.getDb(daoConfig);
+        Course course = new Course();
+        try {
+            course = db.findById(Course.class,id);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return course;
     }
 
+    /**
+     * 修改 course
+     * @param course
+     */
+    public void updateCourse(final Course course){
+        course.setObjectId(course.getId());
+        course.update(context, course.getObjectId(), new UpdateListener() {
+            @Override
+            public void onSuccess() {
+                DbManager db = x.getDb(daoConfig);
+                try {
+                   db.saveOrUpdate(course);
+                } catch (DbException e) {
+                    e.printStackTrace();
+                }
+                toast("修改成功！");
+            }
+            @Override
+            public void onFailure(int i, String s) {
+                switch (i){
+                    case 304:toast(s);
+                        break;
+                }
+                toast(i+":"+s);
+
+            }
+        });
+    }
+
+    /**
+     * 删除课程
+     * @param course
+     */
+    public void delete(final Course course){
+        course.setObjectId(course.getId());
+        course.delete(context, new DeleteListener() {
+            @Override
+            public void onSuccess() {
+                DbManager db = x.getDb(daoConfig);
+                try {
+                    db.delete(course);
+                } catch (DbException e) {
+                    e.printStackTrace();
+                }
+                toast("删除成功");
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                toast(i+": "+s);
+            }
+        });
+    }
 }

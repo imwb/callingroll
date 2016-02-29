@@ -25,6 +25,10 @@ public class CourseAdapter extends BaseAdapter{
         this.data = data;
     }
 
+    public void setData(ArrayList<Course> data) {
+        this.data = data;
+    }
+
     @Override
     public int getCount() {
         return data.size();

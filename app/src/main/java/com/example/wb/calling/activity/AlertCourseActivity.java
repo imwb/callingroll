@@ -13,19 +13,21 @@ import com.example.wb.calling.manager.CourseManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
 
-public class AddCourseActivity extends BaseActivity {
+public class AlertCourseActivity extends BaseActivity {
 
     private Button addRollBtn;
     private Button saveBtn;
-    private Course mcourse = new Course();
+    private Course mcourse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_course);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        String courseId = getIntent().getStringExtra("courseId");
+        mcourse = CourseManager.getInstance(getApplicationContext()).getCourseByID(courseId);
         setSupportActionBar(toolbar);
-        initToolbar("添加课程");
+        initToolbar("修改课程");
         initView();
 
     }
@@ -35,7 +37,7 @@ public class AddCourseActivity extends BaseActivity {
         addRollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddCourseActivity.this,AddStudentActivity.class);
+                Intent intent = new Intent(AlertCourseActivity.this,AddStudentActivity.class);
                 intent.putExtra("jstudents",mcourse.getStudent());
                 startActivityForResult(intent, REQUEST_ADD_ROLL);
             }
@@ -46,6 +48,12 @@ public class AddCourseActivity extends BaseActivity {
         final MaterialEditText timeEdt = (MaterialEditText) findViewById(R.id.edt_course_time);
         final MaterialEditText classEdt = (MaterialEditText) findViewById(R.id.edt_course_class);
         final MaterialEditText remarksEdt = (MaterialEditText) findViewById(R.id.edt_course_remarks);
+
+        idEdt.setText(mcourse.getCourse_id());
+        nameEdt.setText(mcourse.getCourse_name());
+        timeEdt.setText(mcourse.getCourse_room_time());
+        classEdt.setText(mcourse.getCourse_class());
+        remarksEdt.setText(mcourse.getRemarks());
 
         idEdt.addValidator(new METValidator("课程号不能为空") {
             @Override
@@ -96,6 +104,7 @@ public class AddCourseActivity extends BaseActivity {
         });
 
         saveBtn = (Button) findViewById(R.id.btn_save_course);
+        saveBtn.setText("修改");
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +112,7 @@ public class AddCourseActivity extends BaseActivity {
                         && classEdt.validate() && remarksEdt.validate()){
 
                     if(mcourse.getStudent() != null && !mcourse.getStudent().isEmpty()){
-                        CourseManager.getInstance(getApplicationContext()).addCourse(mcourse,AddCourseActivity.this);
+                        CourseManager.getInstance(getApplicationContext()).updateCourse(mcourse);
                     }else {
                         toast("请添加学生名单");
                     }
@@ -129,6 +138,7 @@ public class AddCourseActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        setResult(RESULT_UPDATE_COURSE);
         finish();
     }
 }

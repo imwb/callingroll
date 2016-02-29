@@ -52,7 +52,9 @@
             android:label="@string/title_activity_add_course"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.AddStudentActivity" />
-        <activity android:name=".activity.FileExplorerActivity"></activity>
+        <activity android:name=".activity.FileExplorerActivity" />
+        <activity android:name=".activity.CourseActivity"></activity>
+        <activity android:name=".activity.AlertCourseActivity"></activity>
     </application>
 
 </manifest>

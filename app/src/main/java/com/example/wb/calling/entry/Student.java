@@ -28,4 +28,12 @@ public class Student implements Comparable<Student>{
     public int compareTo(Student another) {
         return this.number.compareTo(another.getNumber());
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                '}';
+    }
 }
