@@ -29,6 +29,16 @@ public class Course extends BmobObject {
     @Column(name = "remarks")
     private String remarks;
 
+    private String userID;
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userName) {
+        this.userID = userName;
+    }
+
     public String getCourse_id() {
         return course_id;
     }

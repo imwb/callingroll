@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.example.wb.calling.R;
 import com.example.wb.calling.entry.Course;
 import com.example.wb.calling.manager.CourseManager;
+import com.example.wb.calling.manager.UserManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
 
@@ -103,6 +104,7 @@ public class AddCourseActivity extends BaseActivity {
                         && classEdt.validate() && remarksEdt.validate()){
 
                     if(mcourse.getStudent() != null && !mcourse.getStudent().isEmpty()){
+                        mcourse.setUserID(UserManager.getInstance(getApplicationContext()).getuserInfo().getUsername());
                         CourseManager.getInstance(getApplicationContext()).addCourse(mcourse,AddCourseActivity.this);
                     }else {
                         toast("请添加学生名单");

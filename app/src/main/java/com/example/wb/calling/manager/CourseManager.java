@@ -2,16 +2,20 @@ package com.example.wb.calling.manager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.wb.calling.activity.AddCourseActivity;
+import com.example.wb.calling.activity.MyApp;
 import com.example.wb.calling.entry.Course;
+import com.example.wb.calling.entry.CourseOrder;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -27,22 +31,7 @@ public class CourseManager {
     private CourseManager(Context context){
         this.context = context;
     }
-    private  DbManager.DaoConfig daoConfig = new DbManager.DaoConfig()
-            .setDbName("calling.db")
-            .setDbVersion(1)
-            .setDbOpenListener(new DbManager.DbOpenListener() {
-                @Override
-                public void onDbOpened(DbManager db) {
-                    // 开启WAL, 对写入加速提升巨大
-                    db.getDatabase().enableWriteAheadLogging();
-                }
-            })
-            .setDbUpgradeListener(new DbManager.DbUpgradeListener() {
-                @Override
-                public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
-
-                }
-            });
+    private DbManager.DaoConfig daoConfig = MyApp.daoConfig;
 
     /**
      * 单例
@@ -97,6 +86,7 @@ public class CourseManager {
      */
     private void saveCourse(Course course){
         DbManager db = x.getDb(daoConfig);
+        course.setCall(false);
         try {
             db.save(course);
         } catch (DbException e) {
@@ -112,7 +102,9 @@ public class CourseManager {
         DbManager db = x.getDb(daoConfig);
         ArrayList<Course> courses = new ArrayList<>();
         try {
-            courses.addAll(db.selector(Course.class).findAll());
+            List<Course> list = db.selector(Course.class).findAll();
+            if(list != null)
+                courses.addAll(list);
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -165,6 +157,17 @@ public class CourseManager {
     }
 
     /**
+     * 更新sqlite course
+     */
+    public void updateCourseSqlite(Course course){
+        DbManager db = x.getDb(daoConfig);
+        try {
+            db.saveOrUpdate(course);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
      * 删除课程
      * @param course
      */
@@ -187,5 +190,53 @@ public class CourseManager {
                 toast(i+": "+s);
             }
         });
+    }
+
+    /**
+     * 查询 没加入点名列表的课程
+     * @return
+     */
+    public ArrayList<Course> getCourseBySelected() {
+        DbManager db = x.getDb(daoConfig);
+        ArrayList<Course> courses = new ArrayList<>();
+        try {
+            courses = (ArrayList<Course>) db.selector(Course.class).where("isCall","=",false).findAll();
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        Log.d("call course",courses.toString());
+        return courses;
+    }
+
+    /**
+     * 查询选择课程的排序
+     * @return
+     */
+    public ArrayList<CourseOrder> getOrder(){
+        DbManager manager = x.getDb(daoConfig);
+        ArrayList<CourseOrder> orders = new ArrayList<>();
+        try {
+            List<CourseOrder> list = manager.selector(CourseOrder.class).findAll();
+            if(list !=null){
+                orders.addAll(list);
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    /**
+     * 更新 排序
+     * @param orders
+     */
+    public void refreshOrder(List<CourseOrder> orders) {
+        DbManager manager = x.getDb(daoConfig);
+        try {
+            manager.delete(CourseOrder.class);
+            manager.save(orders);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
     }
 }

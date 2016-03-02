@@ -123,4 +123,8 @@ public class RegisterActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

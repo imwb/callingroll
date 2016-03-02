@@ -21,8 +21,9 @@
             <include layout="@layout/toolbar" />
             <com.yydcdut.sdlv.SlideAndDragListView
                 android:id="@+id/sdlv_course"
+                android:layout_below="@+id/mtoolbar"
                 android:layout_width="fill_parent"
-                android:paddingTop="10dp"
+                android:paddingTop="3dp"
                 android:layout_height="fill_parent"
                 android:divider="@color/iconColor"
                 android:dividerHeight="1dip"

@@ -1,7 +1,9 @@
 package com.example.wb.calling.adapter;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +11,12 @@ import android.widget.TextView;
 
 import com.example.wb.calling.R;
 import com.example.wb.calling.entry.Course;
+import com.example.wb.calling.entry.CourseOrder;
+import com.example.wb.calling.manager.CourseManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by wb on 16/2/17.
@@ -19,9 +24,17 @@ import java.util.Collections;
 public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.ViewHolder> implements ItemTouchAdapter{
 
     ArrayList<Course> data;
-
-    public CallCourseAdapter(ArrayList<Course> data) {
+    ArrayList<Course> orderdata = new ArrayList<>();
+    private Context context;
+    public CallCourseAdapter(ArrayList<Course> data,Context context) {
+        this.context = context;
         this.data = data;
+        orderdata.addAll(data);
+    }
+
+    public void setOrderdata(ArrayList<Course> orderdata) {
+        this.orderdata.clear();
+        this.orderdata.addAll(orderdata);
     }
 
     @Override
@@ -37,7 +50,7 @@ public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         //建立起viewholder 和 数据之间的联系
         Course course = data.get(position);
-        holder.courseIdTxt.setText(course.getCourse_id());
+        holder.courseIdTxt.setText(course.getId());
         holder.courseTimeTxt.setText(course.getCourse_room_time());
         holder.courseClassTxt.setText(course.getCourse_class());
         holder.courseNameTxt.setText(course.getCourse_name());
@@ -60,6 +73,20 @@ public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.Vi
             }
         }
         notifyItemMoved(fromPosition, toPosition);
+        Collections.swap(orderdata,fromPosition,toPosition);
+        refreshSort();
+    }
+
+    public void refreshSort() {
+        List<CourseOrder> orders= new ArrayList<>();
+        Log.d("data",orderdata.toString());
+        for(int i = 0; i < orderdata.size(); i++){
+            CourseOrder order = new CourseOrder();
+            order.setId(i+"");
+            order.setCouseId(orderdata.get(i).getId());
+            orders.add(order);
+        }
+        CourseManager.getInstance(context.getApplicationContext()).refreshOrder(orders);
     }
 
     @Override

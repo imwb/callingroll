@@ -56,7 +56,7 @@ public class UserManager {
         User user = new User();
         SharedPreferences sp = context.getSharedPreferences("userinfo",Context.MODE_PRIVATE);
         user.setUsername(sp.getString("username",""));
-        user.setName(sp.getString("type",""));
+        user.setName(sp.getString("name",""));
         user.setEmail(sp.getString("email",""));
         user.setType(sp.getInt("type",0));
         return user;
