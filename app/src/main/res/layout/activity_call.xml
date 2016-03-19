@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.wb.calling.activity.CallActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/txt_code"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_centerHorizontal="true"
+        android:text="验证码：QW3T"
+        android:background="@drawable/bg_stroke"
+        android:textSize="24sp" />
+    <cn.iwgang.countdownview.CountdownView
+        android:id="@+id/cd"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:isShowHour="false"
+        app:isShowMinute="false"
+        app:isShowSecond="true"
+        app:isShowMillisecond="true"
+        app:timeTextColor="@color/write"
+        app:timeBgColor="@color/ToolBarColor"
+        app:isHideTimeBackground="false"
+        app:timeBgRadius="5sp"
+        app:timeTextSize="40sp"
+        app:isTimeTextBold="true"
+        app:suffixGravity="top"
+        app:suffixTextColor="#000000"
+        app:suffixTextSize="40sp"
+        app:suffixSecond="'"
+        app:suffixMillisecond="''"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/txt_calling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:textSize="24sp"
+        android:text="正在点名......"
+        android:visibility="gone"/>
+    <Button
+        android:id="@+id/btn_call"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/cirbutton_bg"
+        android:text="点名"
+        android:textSize="16sp"
+        android:textColor="@color/write"/>
+
+</RelativeLayout>

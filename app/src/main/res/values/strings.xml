@@ -18,4 +18,5 @@
         completions."
     </string>
     <string name="title_activity_add_course">AddCourseActivity</string>
+    <string name="title_activity_stu_call">StuCallActivity</string>
 </resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toolbar" />
+    <com.yydcdut.sdlv.SlideAndDragListView
+        android:id="@+id/sdlv_result"
+        android:layout_below="@+id/mtoolbar"
+        android:layout_width="fill_parent"
+        android:paddingTop="3dp"
+        android:layout_height="fill_parent"
+        android:divider="@color/iconColor"
+        android:dividerHeight="1dip"
+        >
+
+    </com.yydcdut.sdlv.SlideAndDragListView>
+</RelativeLayout>

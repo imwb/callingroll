@@ -28,7 +28,7 @@ public class Course extends BmobObject {
     private String student;
     @Column(name = "remarks")
     private String remarks;
-
+    @Column(name = "userID")
     private String userID;
 
     public String getUserID() {
@@ -123,6 +123,7 @@ public class Course extends BmobObject {
                 ", IsCall=" + IsCall +
                 ", student='" + student + '\'' +
                 ", remarks='" + remarks + '\'' +
+                ", userID='" + userID + '\'' +
                 '}';
     }
 }

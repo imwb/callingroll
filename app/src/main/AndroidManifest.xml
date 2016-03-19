@@ -2,16 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.wb.calling">
 
+
+    <!-- 网络权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 监听网络的变化 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- 通知震动 -->
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 设备休眠 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- sd卡存储 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 摄像头 -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <permission
         android:name="cn.bmob.permission.push"
@@ -31,8 +41,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="Bmob_APP_KEY"
+            android:value="18e3c5746a84e4abcebb8ec8f5b96a0a" />
+
         <activity
             android:name=".activity.LoginActivity"
+            android:configChanges="orientation"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -43,18 +58,67 @@
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
+            android:configChanges="orientation"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.MyCourseActivity" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.MyCourseActivity"
+            android:configChanges="orientation" />
         <activity
             android:name=".activity.AddCourseActivity"
+            android:configChanges="orientation"
             android:label="@string/title_activity_add_course"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activity.AddStudentActivity" />
-        <activity android:name=".activity.FileExplorerActivity" />
-        <activity android:name=".activity.CourseActivity"></activity>
-        <activity android:name=".activity.AlertCourseActivity"></activity>
+        <activity
+            android:name=".activity.AddStudentActivity"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.FileExplorerActivity"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.CourseActivity"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.AlertCourseActivity"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.StuMainActivity"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.StuCallCourseActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_stu_call" />
+        <activity
+            android:name=".activity.CallActivity"
+            android:configChanges="orientation" />
+
+        <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">
+            <intent-filter>
+                <action android:name="cn.bmob.action.RECONNECT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="cn.bmob.newim.core.service.BmobImService"
+            android:process=":bmobcore" />
+        <service android:name="cn.bmob.newim.core.service.ReConnectService" />
+        <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
+
+        <receiver
+            android:name=".receiver.MessageReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.bmob.im.action.MESSAGE" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activity.StuCallActivity"></activity>
     </application>
 
 </manifest>

@@ -23,9 +23,11 @@ import java.util.List;
  */
 public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.ViewHolder> implements ItemTouchAdapter{
 
-    ArrayList<Course> data;
-    ArrayList<Course> orderdata = new ArrayList<>();
+    private ArrayList<Course> data;
+    private ArrayList<Course> orderdata = new ArrayList<>();
     private Context context;
+    private OnItemClickListener itemClickListener;
+
     public CallCourseAdapter(ArrayList<Course> data,Context context) {
         this.context = context;
         this.data = data;
@@ -92,10 +94,12 @@ public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.Vi
     @Override
     public void onItemDismiss(int position) {
         data.remove(position);
+        setOrderdata(data);
+        refreshSort();
         notifyItemRemoved(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder,View.OnClickListener{
 
 
         public TextView courseIdTxt;
@@ -108,6 +112,7 @@ public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.Vi
             courseNameTxt = (TextView) itemView.findViewById(R.id.txt_course_name);
             courseClassTxt = (TextView) itemView.findViewById(R.id.txt_course_class);
             courseTimeTxt = (TextView) itemView.findViewById(R.id.txt_course_time);
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -119,10 +124,25 @@ public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.Vi
         public void onItemClear() {
             itemView.setBackgroundColor(0);
         }
-    }
-    interface ItemTouchHelperViewHolder {
 
+        @Override
+        public void onClick(View v) {
+            if(itemClickListener != null){
+                itemClickListener.onItemClick(v,getAdapterPosition());
+            }
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.itemClickListener = onItemClickListener;
+    }
+
+    interface ItemTouchHelperViewHolder {
         void onItemSelected();
         void onItemClear();
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(View view,int position);
     }
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.StuCallCourseActivity">
+    <include layout="@layout/toolbar"/>
+    <ListView
+        android:id="@+id/lv_stu_call"
+        android:layout_below="@+id/mtoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/iconColor"
+        android:dividerHeight="1dip">
+
+    </ListView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="@color/ToolBarColor"
+        app:rippleColor="#fff"
+        app:elevation="10dp"
+        app:pressedTranslationZ="20dp"
+        />
+
+
+
+
+
+</RelativeLayout>

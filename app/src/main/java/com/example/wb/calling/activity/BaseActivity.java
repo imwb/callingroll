@@ -18,6 +18,8 @@ import com.example.wb.calling.R;
 
 import org.xutils.x;
 
+import cn.bmob.newim.BmobIM;
+
 /**
  * Created by wb on 16/2/1.
  */
@@ -55,7 +57,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void toast(String info) {
-        Toast.makeText(this, info, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -168,6 +170,8 @@ public class BaseActivity extends AppCompatActivity {
             toast("再按一次退出程序");
             exitTime = System.currentTimeMillis();
         } else {
+            //断开 IM 连接
+            BmobIM.getInstance().disConnect();
             this.finish();
             System.exit(0);
         }

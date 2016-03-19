@@ -49,7 +49,7 @@ public class RegisterActivity extends BaseActivity {
         usernameEdt.addValidator(new METValidator("请输入正确的用户名") {
             @Override
             public boolean isValid(@NonNull CharSequence text, boolean isEmpty) {
-                if(RegexUtil.isIDCode(text.toString())){
+                if(RegexUtil.isIDCode(text.toString()) && !isEmpty){
                     username = text.toString();
                     return true;
                 }else {

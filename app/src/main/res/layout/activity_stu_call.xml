@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.wb.calling.activity.StuCallActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edt_code"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:hint="验证码"
+        android:inputType="text"
+        app:met_autoValidate="true"
+        app:met_clearButton="true"
+        app:met_floatingLabel="highlight"
+        app:met_maxCharacters="4"
+        app:met_primaryColor="@color/edPrimaryColor"
+        app:met_textColor="@color/material_blue_grey_800"
+        app:met_underlineColor="@color/contentColor" />
+
+    <LinearLayout
+        android:padding="5dp"
+        android:id="@+id/camera_preview"
+        android:layout_width="280dp"
+        android:layout_height="300dp"
+        android:layout_below="@+id/edt_code"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_stroke"
+        android:layout_weight="1">
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/buttonbg"
+        android:text="签到"
+        android:textColor="@color/write"
+        android:textSize="20sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:max="100"
+        />
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:gravity="center"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingLeft="15dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/txt_course_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="0920319"
+        android:textColor="@android:color/background_dark"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/txt_course_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:text="Android程序设计基础"/>
+    <TextView
+        android:id="@+id/txt_teacher_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:text="李游"/>
+
+
+
+
+</LinearLayout>

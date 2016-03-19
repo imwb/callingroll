@@ -351,7 +351,7 @@ public class AddStudentActivity extends BaseActivity {
         return gson.toJson(students);
     }
     /**
-     * 将 student 集合 转换为 json格式
+     * 将 json格式 转换为 集合
      * @param str
      * @return 集合
      */

@@ -104,7 +104,8 @@ public class AddCourseActivity extends BaseActivity {
                         && classEdt.validate() && remarksEdt.validate()){
 
                     if(mcourse.getStudent() != null && !mcourse.getStudent().isEmpty()){
-                        mcourse.setUserID(UserManager.getInstance(getApplicationContext()).getuserInfo().getUsername());
+                        mcourse.setUserID(UserManager.getInstance(getApplicationContext()).getuserInfo().getObjectId());
+                        mcourse.setTeacher_name(UserManager.getInstance(getApplicationContext()).getuserInfo().getName());
                         CourseManager.getInstance(getApplicationContext()).addCourse(mcourse,AddCourseActivity.this);
                     }else {
                         toast("请添加学生名单");
