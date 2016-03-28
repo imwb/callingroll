@@ -45,6 +45,10 @@ public class BaseActivity extends AppCompatActivity {
     protected ImageButton menuCourseImg;
     protected TextView menuCourseTxt;
 
+    protected LinearLayout menuRecordLayout;
+    protected ImageButton menuRecordImg;
+    protected TextView menuRecordTxt;
+
     private long exitTime = 0;
 
     @Override
@@ -115,6 +119,12 @@ public class BaseActivity extends AppCompatActivity {
         menuCourseImg = (ImageButton) findViewById(R.id.img_menu_course);
         menuCourseTxt = (TextView) findViewById(R.id.txt_menu_course);
 
+        menuRecordLayout = (LinearLayout) findViewById(R.id.layout_menu_record);
+        menuRecordImg = (ImageButton) findViewById(R.id.img_menu_record);
+        menuRecordTxt = (TextView) findViewById(R.id.txt_menu_record);
+
+
+
         switch (type) {
             case 1: {
                 changeIconSelected(menuCallImg, R.drawable.ic_touch_app_black_24dp, menuCallTxt);
@@ -124,12 +134,16 @@ public class BaseActivity extends AppCompatActivity {
                 changeIconSelected(menuCourseImg, R.drawable.ic_import_contacts_black_24dp, menuCourseTxt);
                 break;
             }
+            case 3:{
+                changeIconSelected(menuRecordImg, R.drawable.ic_assignment_black_24dp, menuRecordTxt);
+            }
         }
 
         menuCallLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeIconNor(menuCourseImg, R.drawable.ic_import_contacts_black_24dp_nor, menuCourseTxt);
+                changeIconNor(menuRecordImg,R.drawable.ic_assignment_black_24dp_nor,menuRecordTxt);
                 changeIconSelected(menuCallImg, R.drawable.ic_touch_app_black_24dp, menuCallTxt);
 
                 Intent intent = new Intent(BaseActivity.this, MainActivity.class);
@@ -141,6 +155,7 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeIconNor(menuCallImg, R.drawable.ic_touch_app_black_24dp_nor, menuCallTxt);
+                changeIconNor(menuRecordImg,R.drawable.ic_assignment_black_24dp_nor,menuRecordTxt);
                 changeIconSelected(menuCourseImg, R.drawable.ic_import_contacts_black_24dp, menuCourseTxt);
 
                 Intent intent = new Intent(BaseActivity.this, MyCourseActivity.class);
@@ -148,6 +163,18 @@ public class BaseActivity extends AppCompatActivity {
                 finish();
             }
         });
+        menuRecordLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeIconNor(menuCallImg, R.drawable.ic_touch_app_black_24dp_nor, menuCallTxt);
+                changeIconNor(menuCourseImg, R.drawable.ic_import_contacts_black_24dp_nor, menuCourseTxt);
+                changeIconSelected(menuRecordImg, R.drawable.ic_assignment_black_24dp, menuRecordTxt);
+                Intent intent = new Intent(BaseActivity.this, RecordActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     private void changeIconSelected(ImageButton img, int bg, TextView txt) {

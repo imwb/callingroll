@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.wb.calling">
 
-
     <!-- 网络权限 -->
+
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 监听网络的变化 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -22,17 +22,18 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <permission
-        android:name="cn.bmob.permission.push"
-        android:protectionLevel="normal" />
-
     <uses-permission android:name="cn.bmob.permission.push" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <permission
+        android:name="cn.bmob.permission.push"
+        android:protectionLevel="normal" />
 
     <application
         android:name=".activity.MyApp"
@@ -44,6 +45,9 @@
         <meta-data
             android:name="Bmob_APP_KEY"
             android:value="18e3c5746a84e4abcebb8ec8f5b96a0a" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="2ec6756bcc2edbac4ac69d5b550d293b" />
 
         <activity
             android:name=".activity.LoginActivity"
@@ -94,7 +98,22 @@
         <activity
             android:name=".activity.CallActivity"
             android:configChanges="orientation" />
+        <activity android:name=".activity.StuCallActivity" />
 
+        <service
+            android:name="cn.bmob.newim.core.service.BmobImService"
+            android:process=":bmobcore" />
+        <service android:name="cn.bmob.newim.core.service.ReConnectService" />
+        <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
+        <service android:name="com.amap.api.location.APSService" />
+
+        <receiver
+            android:name=".receiver.MessageReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.bmob.im.action.MESSAGE" />
+            </intent-filter>
+        </receiver>
         <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">
             <intent-filter>
                 <action android:name="cn.bmob.action.RECONNECT" />
@@ -104,21 +123,8 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name="cn.bmob.newim.core.service.BmobImService"
-            android:process=":bmobcore" />
-        <service android:name="cn.bmob.newim.core.service.ReConnectService" />
-        <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
-
-        <receiver
-            android:name=".receiver.MessageReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="cn.bmob.im.action.MESSAGE" />
-            </intent-filter>
-        </receiver>
-
-        <activity android:name=".activity.StuCallActivity"></activity>
+        <activity android:name=".activity.ShowPicActivity" />
+        <activity android:name=".activity.RecordActivity"></activity>
     </application>
 
 </manifest>

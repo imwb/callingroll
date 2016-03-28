@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.hardware.Camera;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -16,6 +17,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bmob.BTPFileResponse;
 import com.bmob.BmobProFile;
 import com.bmob.btp.callback.LocalThumbnailListener;
@@ -61,7 +66,34 @@ public class StuCallActivity extends BaseActivity {
     private String mthumbUrl;
     private String mthumname;
     private String mthumpath;
+    private Double latitude;
+    private Double longitute;
     public ProgressDialog pd;
+    private LocationManager mLocationManger;
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            Thread.currentThread().getName();
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    //定位成功回调信息，设置相关消息
+                    amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+                    latitude = amapLocation.getLatitude();//获取纬度
+                    longitute = amapLocation.getLongitude();//获取经度
+                    Log.d("location", amapLocation.toString());
+                } else {
+                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
+    public AMapLocationClientOption mLocationOption = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +104,38 @@ public class StuCallActivity extends BaseActivity {
         if (intent != null) {
             userID = intent.getStringExtra("userID");
         }
+
+        initLocatoin();
+        //初始化定位
+
         initToolbar("签到");
         //  initview();
     }
+
+    private void initLocatoin() {
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //设置是否只定位一次,默认为false
+        mLocationOption.setOnceLocation(false);
+        //设置是否强制刷新WIFI，默认为强制刷新
+        mLocationOption.setWifiActiveScan(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setMockEnable(false);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(2000);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
+
 
     private void initview() {
         final MaterialEditText codeEdt = (MaterialEditText) findViewById(R.id.edt_code);
@@ -131,7 +192,12 @@ public class StuCallActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        mCamera.release();
+        if (mCamera != null)
+            mCamera.release();
+        if (mLocationClient != null) {
+            mLocationClient.stopLocation();//停止定位
+            mLocationClient.onDestroy();//销毁定位客户端。
+        }
     }
 
     /**
@@ -187,7 +253,7 @@ public class StuCallActivity extends BaseActivity {
             @Override
             public void onError(int statuscode, String errormsg) {
                 // TODO Auto-generated method stub
-                Log.d("thumb","本地缩略图创建失败 :" + statuscode + "," + errormsg);
+                Log.d("thumb", "本地缩略图创建失败 :" + statuscode + "," + errormsg);
                 toast("上传失败：" + errormsg);
             }
 
@@ -223,10 +289,10 @@ public class StuCallActivity extends BaseActivity {
                     mthumbUrl = files[1].getUrl();
                     Log.i("bmob", "文件上传成功：" + mfilename + ",可访问的文件地址：" + mfileUrl);
                     Log.i("bmob", "缩略图传成功：" + mthumname + ",可访问的文件地址：" + mthumbUrl);
-                    sendMessage(mfilename,mfileUrl,mthumname,mthumbUrl);
+                    sendMessage(mfilename, mfileUrl, mthumname, mthumbUrl);
                     pd.dismiss();
                 }
-                Log.d("upload","NewBmobFileActivity -onSuccess :" + isFinish + "-----" + Arrays.asList(fileNames) + "----" + Arrays.asList(urls) + "----" + Arrays.asList(files));
+                Log.d("upload", "NewBmobFileActivity -onSuccess :" + isFinish + "-----" + Arrays.asList(fileNames) + "----" + Arrays.asList(urls) + "----" + Arrays.asList(files));
             }
 
             @Override
@@ -238,7 +304,7 @@ public class StuCallActivity extends BaseActivity {
             @Override
             public void onError(int statuscode, String errormsg) {
                 // TODO Auto-generated method stub
-                Log.d("upload","NewBmobFileActivity -onError :" + statuscode + "--" + errormsg);
+                Log.d("upload", "NewBmobFileActivity -onError :" + statuscode + "--" + errormsg);
                 pd.dismiss();
                 toast("上传出错：" + errormsg);
             }
@@ -277,7 +343,7 @@ public class StuCallActivity extends BaseActivity {
         Camera camera = null;
         try {
             camera = Camera.open(FindFrontCamera());
-        }catch (Exception e){
+        } catch (Exception e) {
             toast("相机启动失败");
         }
 
@@ -327,6 +393,8 @@ public class StuCallActivity extends BaseActivity {
                     map.put("fileUrl", fileUrl);
                     map.put("thumbName", thumbName);
                     map.put("thumbUrl", thumbUrl);
+                    map.put("latitude", latitude);
+                    map.put("longitude", longitute);
                     msg.setExtraMap(map);
                     im.sendMessage(msg, new MessageSendListener() {
                         @Override
@@ -361,7 +429,7 @@ public class StuCallActivity extends BaseActivity {
 
             try {
                 //旋转
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 Matrix matrix = new Matrix();
                 matrix.setRotate(-90);
                 bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);

@@ -124,8 +124,10 @@ public class AddCourseActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode){
             case AddStudentActivity.RESULT_ROLL:
-                String jstudents = data.getStringExtra("students");
-                mcourse.setStudent(jstudents);
+                if(data != null){
+                    String jstudents = data.getStringExtra("students");
+                    mcourse.setStudent(jstudents);
+                }
                 break;
         }
     }

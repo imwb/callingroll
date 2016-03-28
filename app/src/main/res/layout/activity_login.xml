@@ -59,15 +59,16 @@
             app:met_textColorHint="@android:color/darker_gray"
             app:met_underlineColor="@android:color/holo_blue_dark" />
 
-        <com.gc.materialdesign.views.ButtonRectangle
+        <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_dark"
             android:text="登    录"
-            android:textSize="7sp">
+            android:textColor="@color/write"
+            android:textSize="20sp">
 
-        </com.gc.materialdesign.views.ButtonRectangle>
+        </Button>
 
         <Button
             android:id="@+id/btn_register"

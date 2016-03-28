@@ -126,6 +126,7 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent(MainActivity.this,CallActivity.class);
                 intent.putExtra("cou_id",courseList.get(position).getId());
                 intent.putExtra("cou_name",courseList.get(position).getCourse_name());
+                intent.putExtra("cou_class",courseList.get(position).getCourse_class());
                 startActivity(intent);
             }
         });

@@ -50,7 +50,8 @@ public class CourseManager {
             manager.context = context;
             return manager;
         } else {
-            return new CourseManager(context);
+            manager = new CourseManager(context);
+            return manager;
         }
     }
 

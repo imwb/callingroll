@@ -93,6 +93,11 @@ public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.Vi
 
     @Override
     public void onItemDismiss(int position) {
+
+        Course course = data.get(position);
+        course.setCall(false);
+        //更新数据库 isCall
+        CourseManager.getInstance(context.getApplicationContext()).updateCourseSqlite(course);
         data.remove(position);
         setOrderdata(data);
         refreshSort();

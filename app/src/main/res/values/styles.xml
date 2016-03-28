@@ -7,6 +7,8 @@
         <item name="android:windowNoTitle">true</item>
         <!-- Actionbar color -->
         <item name="colorPrimary">@color/ToolBarColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/ToolBarColor</item>
         <!--Status bar color-->
         <!--<item name="colorPrimaryDark">@color/StatusBarColor</item>-->
         <!--Window color-->

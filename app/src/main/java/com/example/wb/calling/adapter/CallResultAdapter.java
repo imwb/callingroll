@@ -1,6 +1,8 @@
 package com.example.wb.calling.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wb.calling.R;
+import com.example.wb.calling.activity.CallActivity;
+import com.example.wb.calling.activity.ShowPicActivity;
 import com.example.wb.calling.entry.Course;
-import com.example.wb.calling.entry.Record;
+import com.example.wb.calling.entry.RecordItem;
 import com.example.wb.calling.entry.Student;
 import com.example.wb.calling.manager.CourseManager;
 import com.google.gson.Gson;
@@ -30,12 +35,13 @@ import java.util.Collections;
  */
 public class CallResultAdapter extends BaseAdapter {
 
-    private ArrayList<Record> records;
+    private ArrayList<RecordItem> records;
     private ArrayList<Student> students;
     private Course course;
     private Context context;
     private ImageOptions options;
-    public CallResultAdapter(Context context, ArrayList<Record> records, String courseID) {
+
+    public CallResultAdapter(Context context, ArrayList<RecordItem> records, String courseID) {
         this.context = context;
         this.records = records;
         course = CourseManager.getInstance(context.getApplicationContext()).getCourseByID(courseID);
@@ -72,29 +78,28 @@ public class CallResultAdapter extends BaseAdapter {
                 if (students.get(i).getNumber().equals(records.get(j).getStu_num())) {
                     j++;
                 } else {
-                    addRecord(students.get(i),1);
+                    addRecord(students.get(i), 1);
                 }
             }
         }
         Collections.sort(records);
-        Log.d("result",records.toString());
+
+        Log.d("result", records.toString());
     }
 
-    public ArrayList<Record> getRecords() {
+    public ArrayList<RecordItem> getRecords() {
         return records;
     }
 
     private void addRecord(Student stu, int status) {
-        Record record = new Record();
-        record.setCou_id(course.getId());
-        record.setCou_name(course.getCourse_name());
+        RecordItem record = new RecordItem();
         record.setStu_num(stu.getNumber());
         record.setStu_name(stu.getName());
         record.setStatus(status);
         records.add(record);
     }
 
-    public void setData(ArrayList<Record> records) {
+    public void setData(ArrayList<RecordItem> records) {
         this.records = records;
     }
 
@@ -116,7 +121,7 @@ public class CallResultAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder holder;
-        Record record = records.get(position);
+        final RecordItem record = records.get(position);
         if (convertView == null) {
             holder = new Holder();
             convertView = LayoutInflater.from(context).inflate(R.layout.item_record, null);
@@ -124,33 +129,75 @@ public class CallResultAdapter extends BaseAdapter {
             holder.stu_numTxt = (TextView) convertView.findViewById(R.id.txt_stu_num);
             holder.stu_nameTxt = (TextView) convertView.findViewById(R.id.txt_stu_name);
             holder.statusTxt = (TextView) convertView.findViewById(R.id.txt_status);
+            holder.distanceTxt = (TextView) convertView.findViewById(R.id.txt_distance);
             holder.recordLayout = (LinearLayout) convertView.findViewById(R.id.layout_record);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
         }
-        switch (record.getStatus()){
+        switch (record.getStatus()) {
             case 0:
                 holder.recordLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
                 break;
-            case 1:holder.recordLayout.setBackgroundColor(context.getResources().getColor(R.color.orange));
+            case 1:
+                holder.recordLayout.setBackgroundColor(context.getResources().getColor(R.color.edPrimaryColor));
                 break;
-            case 2:holder.recordLayout.setBackgroundColor(context.getResources().getColor(R.color.blue));
+            case 2:
+                holder.recordLayout.setBackgroundColor(context.getResources().getColor(R.color.blue));
                 break;
         }
         holder.stu_nameTxt.setText(record.getStu_name());
         holder.stu_numTxt.setText(record.getStu_num());
         holder.statusTxt.setText(transStu(record.getStatus()));
-        x.image().bind(holder.img,record.getThumbUrl(),options);
+
+        int distance = getDistance(record.getLongitude(), record.getLatitude());
+        if(distance == -1)
+             holder.distanceTxt.setText("无位置信息");
+        else {
+            holder.distanceTxt.setText(distance+" 米");
+            if(distance > 200){
+                holder.distanceTxt.setTextColor(context.getResources().getColor(R.color.menuItemDelete));
+            }
+        }
+        x.image().bind(holder.img, record.getThumbUrl(), options);
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = record.getFileUrl();
+                if(url != null && url.length()>0){
+                    Intent i = new Intent(context, ShowPicActivity.class);
+                    i.putExtra("url",url);
+                    context.startActivity(i);
+                }else {
+
+                 Toast.makeText(context,"无图像信息",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         return convertView;
     }
 
+    private int getDistance(Double longitude, Double latitude) {
+        if (longitude != null && latitude != null) {
+            float[] results = new float[3];
+            Location.distanceBetween(latitude, longitude, CallActivity.mlatitude, CallActivity.mlongitute, results);
+            int distance = (int) Math.abs(results[0]);
+            return distance;
+        }else {
+            return -1;
+        }
+    }
+
     private String transStu(Integer status) {
-        switch (status){
-            case 0: return "到课";
-            case 1: return "缺席";
-            case 2: return "请假";
-            default:return " ";
+        switch (status) {
+            case 0:
+                return "到课";
+            case 1:
+                return "缺席";
+            case 2:
+                return "请假";
+            default:
+                return " ";
         }
     }
 
@@ -159,6 +206,7 @@ public class CallResultAdapter extends BaseAdapter {
         public TextView stu_numTxt;
         public TextView stu_nameTxt;
         public TextView statusTxt;
+        public TextView distanceTxt;
         public LinearLayout recordLayout;
     }
 

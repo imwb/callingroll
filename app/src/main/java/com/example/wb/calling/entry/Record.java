@@ -1,30 +1,25 @@
 package com.example.wb.calling.entry;
 
 import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobGeoPoint;
+import cn.bmob.v3.datatype.BmobDate;
 
 /**
- * 点名记录
- * Created by wb on 16/3/12.
+ * Created by wb on 16/3/25.
  */
-public class Record extends BmobObject implements Comparable<Record>{
-
+public class Record extends BmobObject {
     private String id;
-    private String cou_id;
-    private String cou_name;
-    private String stu_id;
-    private String stu_num;
-    private String stu_name;
+    private String courseName;
+    private String courseID;
     private String time;
-    private String filename;
-    private String filelocalurl;
-    private String fileUrl;
-    private String thumbName;
-    private String thumbUrl;
-    private Integer status;
-    private String remark;
-    private Integer praise;
-    private BmobGeoPoint geoPoint;
+    private BmobDate date;
+    private Integer total;
+    //到课
+    private Integer cstatu0;
+    //旷课
+    private Integer cstatu1;
+    //请假
+    private Integer cstatu2;
+
 
     public String getId() {
         return id;
@@ -34,52 +29,20 @@ public class Record extends BmobObject implements Comparable<Record>{
         this.id = id;
     }
 
-    public BmobGeoPoint getGeoPoint() {
-        return geoPoint;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setGeoPoint(BmobGeoPoint geoPoint) {
-        this.geoPoint = geoPoint;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
-    public Integer getPraise() {
-        return praise;
+    public String getCourseID() {
+        return courseID;
     }
 
-    public void setPraise(Integer praise) {
-        this.praise = praise;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getFilelocalurl() {
-        return filelocalurl;
-    }
-
-    public void setFilelocalurl(String filelocalurl) {
-        this.filelocalurl = filelocalurl;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setCourseID(String courseID) {
+        this.courseID = courseID;
     }
 
     public String getTime() {
@@ -90,81 +53,43 @@ public class Record extends BmobObject implements Comparable<Record>{
         this.time = time;
     }
 
-    public String getStu_num() {
-        return stu_num;
+    public BmobDate getDate() {
+        return date;
     }
 
-    public void setStu_num(String stu_num) {
-        this.stu_num = stu_num;
+    public void setDate(BmobDate date) {
+        this.date = date;
     }
 
-    public String getStu_id() {
-        return stu_id;
+    public Integer getTotal() {
+        return total;
     }
 
-    public void setStu_id(String stu_id) {
-        this.stu_id = stu_id;
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
-    public String getCou_name() {
-        return cou_name;
+    public Integer getCstatu0() {
+        return cstatu0;
     }
 
-    public void setCou_name(String cou_name) {
-        this.cou_name = cou_name;
+    public void setCstatu0(Integer cstatu0) {
+        this.cstatu0 = cstatu0;
     }
 
-    public String getCou_id() {
-        return cou_id;
+    public Integer getCstatu1() {
+        return cstatu1;
     }
 
-    public void setCou_id(String cou_id) {
-        this.cou_id = cou_id;
+    public void setCstatu1(Integer cstatu1) {
+        this.cstatu1 = cstatu1;
     }
 
-    public String getStu_name() {
-        return stu_name;
+    public Integer getCstatu2() {
+        return cstatu2;
     }
 
-    public void setStu_name(String stu_name) {
-        this.stu_name = stu_name;
-    }
-
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public void setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
-    }
-
-    public String getFileUrl() {
-        return fileUrl;
-    }
-
-    public void setFileUrl(String fileUrl) {
-        this.fileUrl = fileUrl;
-    }
-
-    public String getThumbName() {
-        return thumbName;
-    }
-
-    public void setThumbName(String thumbName) {
-        this.thumbName = thumbName;
-    }
-
-    @Override
-    public int compareTo(Record another) {
-        return this.stu_num.compareTo(another.getStu_num());
-    }
-
-    @Override
-    public String toString() {
-        return "Record{" +
-                "cou_id='" + cou_id + '\'' +
-                ", stu_num='" + stu_num + '\'' +
-                ", status=" + status +
-                '}';
+    public void setCstatu2(Integer cstatu2) {
+        this.cstatu2 = cstatu2;
     }
 }

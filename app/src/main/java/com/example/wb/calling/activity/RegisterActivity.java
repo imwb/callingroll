@@ -6,13 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioGroup;
 
 import com.example.wb.calling.R;
 import com.example.wb.calling.entry.User;
 import com.example.wb.calling.manager.UserManager;
 import com.example.wb.calling.utils.RegexUtil;
-import com.gc.materialdesign.views.ButtonRectangle;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
 
@@ -103,7 +103,7 @@ public class RegisterActivity extends BaseActivity {
             }
         });
 
-        ButtonRectangle registerBtn = (ButtonRectangle) findViewById(btn_register);
+        Button registerBtn = (Button) findViewById(btn_register);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

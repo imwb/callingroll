@@ -86,11 +86,34 @@ public class AddStudentActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("students",array2json(students));
-                setResult(RESULT_ROLL,intent);
-                finish();
+                int index = validateSudents(students);
+                if( index == -1){
+                    intent.putExtra("students",array2json(students));
+                    setResult(RESULT_ROLL,intent);
+                    finish();
+                }else {
+                    toast("请核对学生信息");
+                    stuLv.setSelection(index);
+                }
+
             }
         });
+    }
+
+    /**
+     * 验证 students 中有没有学号重复的
+     * @param students
+     */
+    private int validateSudents(ArrayList<Student> students) {
+        int  index = -1;
+        for(int i = 0, j = 1; j < students.size();i++,j++ ){
+            if(students.get(i).getNumber().equals(students.get(j).getNumber())){
+                index = i;
+                Log.d(" index ",index+"");
+                break;
+            }
+        }
+        return  index;
     }
 
     private void initLv() {
@@ -113,9 +136,15 @@ public class AddStudentActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        intent.putExtra("students",array2json(students));
-        setResult(RESULT_ROLL,intent);
-        finish();
+        int index = validateSudents(students);
+        if( index == -1){
+            intent.putExtra("students",array2json(students));
+            setResult(RESULT_ROLL,intent);
+            finish();
+        }else {
+            toast("请核对学生信息");
+            stuLv.setSelectionFromTop(index,200);
+        }
     }
 
     @Override

@@ -16,7 +16,6 @@ import com.example.wb.calling.R;
 import com.example.wb.calling.entry.User;
 import com.example.wb.calling.manager.CourseManager;
 import com.example.wb.calling.utils.RegexUtil;
-import com.gc.materialdesign.views.ButtonRectangle;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
 
@@ -34,7 +33,7 @@ import static com.example.wb.calling.R.id.btn_register;
 public class LoginActivity extends AppCompatActivity {
 
     private Button regBtn;
-    private ButtonRectangle loginBtn;
+    private Button loginBtn;
     private String username;
     private String password;
     private boolean isFirst = true;
@@ -98,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-            loginBtn = (ButtonRectangle) findViewById(R.id.btn_login);
+            loginBtn = (Button) findViewById(R.id.btn_login);
 
             loginBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -34,6 +34,7 @@ public class AlertCourseActivity extends BaseActivity {
 
     private void initView() {
         addRollBtn = (Button) findViewById(R.id.btn_add_roll);
+        addRollBtn.setText("修改名单");
         addRollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,8 +131,10 @@ public class AlertCourseActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode){
             case AddStudentActivity.RESULT_ROLL:
-                String jstudents = data.getStringExtra("students");
-                mcourse.setStudent(jstudents);
+                if(data != null){
+                    String jstudents = data.getStringExtra("students");
+                    mcourse.setStudent(jstudents);
+                }
                 break;
         }
     }
