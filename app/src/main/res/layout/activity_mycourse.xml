@@ -27,6 +27,7 @@
                 android:layout_height="fill_parent"
                 android:divider="@color/iconColor"
                 android:dividerHeight="1dip"
+                android:layoutAnimation="@anim/anim_layout"
                 >
 
             </com.yydcdut.sdlv.SlideAndDragListView>

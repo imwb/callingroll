@@ -63,7 +63,7 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@drawable/login_buttonbg"
             android:text="登    录"
             android:textColor="@color/write"
             android:textSize="20sp">

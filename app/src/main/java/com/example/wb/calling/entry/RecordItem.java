@@ -26,6 +26,7 @@ public class RecordItem extends BmobObject implements Comparable<RecordItem>{
     private Double longitude;
     private Double latitude;
     private BmobGeoPoint geoPoint;
+    private String courseName;
 
     public String getId() {
         return id;
@@ -124,6 +125,7 @@ public class RecordItem extends BmobObject implements Comparable<RecordItem>{
         this.stu_name = stu_name;
     }
 
+
     public String getThumbUrl() {
         return thumbUrl;
     }
@@ -167,6 +169,14 @@ public class RecordItem extends BmobObject implements Comparable<RecordItem>{
     @Override
     public int compareTo(RecordItem another) {
         return this.stu_num.compareTo(another.getStu_num());
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     @Override

@@ -59,7 +59,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="签到次数"
+                    android:text="签到:"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="10"
+                    android:text=""
                     android:textColor="@android:color/holo_orange_dark"
                     android:textSize="20sp" />
 
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
-                    android:text="未到"
+                    android:text="未到:"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -85,7 +85,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="2"
+                    android:text=""
+                    android:textColor="@android:color/holo_orange_dark"
+                    android:textSize="20sp" />
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="请假:"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txt_count_leave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text=""
                     android:textColor="@android:color/holo_orange_dark"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -185,6 +202,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/layout_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
@@ -195,6 +213,7 @@
                 android:paddingTop="20dp">
 
                 <ImageView
+                    android:id="@+id/img_msg"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:src="@drawable/ic_markunread_black_24dp" />

@@ -215,6 +215,7 @@ public class CallActivity extends BaseActivity {
                 timeView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
                     @Override
                     public void onEnd(CountdownView cv) {
+                        EventBus.getDefault().unregister(this);
                         callingTxt.setVisibility(View.GONE);
                         toast("时间到了");
                         setContentView(R.layout.activity_call_result);
@@ -228,6 +229,7 @@ public class CallActivity extends BaseActivity {
                         record.setLatitude(45.776007);
                         record.setLongitude(126.683592);
                         record.setPraise(0);
+                        record.setCourseName(cou_name);
                         records.add(record);
                         recordLV = (SlideAndDragListView) findViewById(R.id.sdlv_result);
                         recordLV.setOnTouchListener(new ShowHideOnScroll(mToolbar));
@@ -307,6 +309,7 @@ public class CallActivity extends BaseActivity {
             record.setThumbName(thumbName);
             record.setThumbUrl(thumbUrl);
             record.setPraise(0);
+            record.setCourseName(cou_name);
             records.add(record);
 
         } else {
@@ -527,6 +530,8 @@ public class CallActivity extends BaseActivity {
         record.setCstatu0(result_statu0);
         record.setCstatu1(result_statu1);
         record.setCstatu2(result_statu2);
+        record.setCourseClass(cou_class);
+        record.setTeacherName(UserManager.getInstance(getApplicationContext()).getuserInfo().getUsername());
         return RecordManager.getInstance(getApplicationContext()).saveRecords(record, records);
 
     }

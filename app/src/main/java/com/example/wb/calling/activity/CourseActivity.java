@@ -1,7 +1,6 @@
 package com.example.wb.calling.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -65,7 +64,7 @@ public class CourseActivity extends BaseActivity {
         String stustr = course.getStudent();
         Gson gson = new Gson();
         students = gson.fromJson(stustr,new TypeToken<ArrayList<Student>>(){}.getType());
-        Log.d("stus",students.toString());
+
         adapter = new StudentAdapter(students,this);
         stuLv.setAdapter(adapter);
     }

@@ -1,6 +1,8 @@
 package com.example.wb.calling.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -9,16 +11,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wb.calling.R;
+import com.example.wb.calling.entry.Course;
+import com.example.wb.calling.entry.Record;
+import com.example.wb.calling.entry.User;
+import com.example.wb.calling.manager.CourseManager;
+import com.example.wb.calling.manager.UserManager;
 
 import org.xutils.x;
 
 import cn.bmob.newim.BmobIM;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.CountListener;
 
 /**
  * Created by wb on 16/2/1.
@@ -49,6 +61,28 @@ public class BaseActivity extends AppCompatActivity {
     protected ImageButton menuRecordImg;
     protected TextView menuRecordTxt;
 
+    protected LinearLayout menuMsgLayout;
+    protected ImageButton menuMsgImg;
+    protected TextView menuMsgTxt;
+
+    protected LinearLayout menuLogoutLayout;
+    protected ImageButton menuLogoutImg;
+    protected TextView menuLogoutTxt;
+
+    protected RelativeLayout expandLayout;
+    protected Button expandBtn;
+
+    protected LinearLayout logoutLayout;
+    protected LinearLayout menuLayout;
+
+    protected TextView usernameTxt;
+    protected TextView courseCountTxt;
+    protected TextView callCountTxt;
+
+    private static String username;
+    private static String courseCount;
+    private static String callCount;
+
     private long exitTime = 0;
 
     @Override
@@ -58,6 +92,47 @@ public class BaseActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         x.view().inject(this);
+    }
+
+    private void initMenuTitle() {
+        usernameTxt = (TextView) findViewById(R.id.txt_user_name);
+        courseCountTxt = (TextView) findViewById(R.id.txt_course_count);
+        callCountTxt = (TextView) findViewById(R.id.txt_call_count);
+
+        User user = BmobUser.getCurrentUser(this, User.class);
+        usernameTxt.setText(user.getName());
+
+
+        BmobQuery<Course> query = new BmobQuery<>();
+        query.addWhereEqualTo("userID", user.getObjectId());
+        query.count(this, Course.class, new CountListener() {
+            @Override
+            public void onSuccess(int i) {
+                courseCount = i + "";
+                courseCountTxt.setText(courseCount);
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+
+            }
+        });
+
+
+        BmobQuery<Record> query2 = new BmobQuery<Record>();
+        query2.addWhereEqualTo("teacherName", UserManager.getInstance(getApplicationContext()).getuserInfo().getUsername());
+        query2.count(this, Record.class, new CountListener() {
+            @Override
+            public void onSuccess(int count) {
+                // TODO Auto-generated method stub
+                callCountTxt.setText(count + " ");
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     public void toast(String info) {
@@ -71,6 +146,7 @@ public class BaseActivity extends AppCompatActivity {
      */
 
     protected void initToolbarAndDrawer(String title) {
+        initMenuTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -89,7 +165,7 @@ public class BaseActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(drawerToggle);
     }
 
-    protected void initToolbar(String title){
+    protected void initToolbar(String title) {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(title);
         setSupportActionBar(mToolbar);
@@ -123,7 +199,9 @@ public class BaseActivity extends AppCompatActivity {
         menuRecordImg = (ImageButton) findViewById(R.id.img_menu_record);
         menuRecordTxt = (TextView) findViewById(R.id.txt_menu_record);
 
-
+        menuMsgLayout = (LinearLayout) findViewById(R.id.layout_menu_msg);
+        menuMsgImg = (ImageButton) findViewById(R.id.img_menu_msg);
+        menuMsgTxt = (TextView) findViewById(R.id.txt_menu_msg);
 
         switch (type) {
             case 1: {
@@ -134,16 +212,23 @@ public class BaseActivity extends AppCompatActivity {
                 changeIconSelected(menuCourseImg, R.drawable.ic_import_contacts_black_24dp, menuCourseTxt);
                 break;
             }
-            case 3:{
+            case 3: {
                 changeIconSelected(menuRecordImg, R.drawable.ic_assignment_black_24dp, menuRecordTxt);
+                break;
             }
+            case 4: {
+                changeIconSelected(menuMsgImg, R.drawable.ic_markunread_black_24dp, menuMsgTxt);
+                break;
+            }
+
         }
 
         menuCallLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeIconNor(menuCourseImg, R.drawable.ic_import_contacts_black_24dp_nor, menuCourseTxt);
-                changeIconNor(menuRecordImg,R.drawable.ic_assignment_black_24dp_nor,menuRecordTxt);
+                changeIconNor(menuRecordImg, R.drawable.ic_assignment_black_24dp_nor, menuRecordTxt);
+                changeIconNor(menuMsgImg, R.drawable.ic_markunread_black_24dp_nor, menuMsgTxt);
                 changeIconSelected(menuCallImg, R.drawable.ic_touch_app_black_24dp, menuCallTxt);
 
                 Intent intent = new Intent(BaseActivity.this, MainActivity.class);
@@ -155,7 +240,8 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeIconNor(menuCallImg, R.drawable.ic_touch_app_black_24dp_nor, menuCallTxt);
-                changeIconNor(menuRecordImg,R.drawable.ic_assignment_black_24dp_nor,menuRecordTxt);
+                changeIconNor(menuRecordImg, R.drawable.ic_assignment_black_24dp_nor, menuRecordTxt);
+                changeIconNor(menuMsgImg, R.drawable.ic_markunread_black_24dp_nor, menuMsgTxt);
                 changeIconSelected(menuCourseImg, R.drawable.ic_import_contacts_black_24dp, menuCourseTxt);
 
                 Intent intent = new Intent(BaseActivity.this, MyCourseActivity.class);
@@ -168,6 +254,7 @@ public class BaseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 changeIconNor(menuCallImg, R.drawable.ic_touch_app_black_24dp_nor, menuCallTxt);
                 changeIconNor(menuCourseImg, R.drawable.ic_import_contacts_black_24dp_nor, menuCourseTxt);
+                changeIconNor(menuMsgImg, R.drawable.ic_markunread_black_24dp_nor, menuMsgTxt);
                 changeIconSelected(menuRecordImg, R.drawable.ic_assignment_black_24dp, menuRecordTxt);
                 Intent intent = new Intent(BaseActivity.this, RecordActivity.class);
                 startActivity(intent);
@@ -175,6 +262,54 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
 
+        menuMsgLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeIconNor(menuCallImg, R.drawable.ic_touch_app_black_24dp_nor, menuCallTxt);
+                changeIconNor(menuCourseImg, R.drawable.ic_import_contacts_black_24dp_nor, menuCourseTxt);
+                changeIconNor(menuRecordImg, R.drawable.ic_assignment_black_24dp_nor, menuRecordTxt);
+                changeIconSelected(menuMsgImg, R.drawable.ic_markunread_black_24dp, menuMsgTxt);
+
+                Intent intent = new Intent(BaseActivity.this, MsgActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        expandLayout = (RelativeLayout) findViewById(R.id.layout_expand);
+        expandBtn = (Button) findViewById(R.id.btn_expand);
+        logoutLayout = (LinearLayout) findViewById(R.id.layout_logout);
+        menuLayout = (LinearLayout) findViewById(R.id.layout_menu);
+
+        expandLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (logoutLayout.getVisibility() == View.GONE) {
+                    expandBtn.setBackgroundResource(R.drawable.ic_expand_less_black_24dp);
+                    menuLayout.setVisibility(View.GONE);
+                    logoutLayout.setVisibility(View.VISIBLE);
+                } else {
+                    expandBtn.setBackgroundResource(R.drawable.ic_expand_more_black_12dp1);
+                    logoutLayout.setVisibility(View.GONE);
+                    menuLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        menuLogoutLayout = (LinearLayout) findViewById(R.id.layout_menu_logout);
+        menuLogoutImg = (ImageButton) findViewById(R.id.img_menu_logout);
+        menuLogoutTxt = (TextView) findViewById(R.id.txt_menu_logout);
+
+        menuLogoutLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuLogoutImg.setBackgroundResource(R.drawable.ic_power_settings_new_black_24dp);
+                menuLogoutTxt.setTextColor(getResources().getColor(R.color.black));
+                clearUserInfo();
+                startActivity(new Intent(BaseActivity.this, LoginActivity.class));
+                finish();
+            }
+        });
     }
 
     private void changeIconSelected(ImageButton img, int bg, TextView txt) {
@@ -185,6 +320,19 @@ public class BaseActivity extends AppCompatActivity {
     private void changeIconNor(ImageButton img, int bg, TextView txt) {
         txt.setTextColor(getResources().getColor(R.color.menuTxtColor));
         img.setBackgroundResource(bg);
+    }
+
+    private void clearUserInfo() {
+        SharedPreferences sp = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("username", "");
+        editor.putString("objectId", "");
+        editor.putString("password", "");
+        editor.putString("name", "");
+        editor.putString("email", "");
+        editor.commit();
+        CourseManager.getInstance(getApplicationContext()).clearSqlite();
+        BmobUser.logOut(this);
     }
 
     /**

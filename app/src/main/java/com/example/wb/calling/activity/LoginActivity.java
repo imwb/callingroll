@@ -67,46 +67,44 @@ public class LoginActivity extends AppCompatActivity {
 
         final MaterialEditText usernameEdt = (MaterialEditText) findViewById(R.id.edt_account);
         final MaterialEditText pwEdt = (MaterialEditText) findViewById(R.id.edt_password);
+        usernameEdt.addValidator(new METValidator("用户名格式不正确") {
+            @Override
+            public boolean isValid(@NonNull CharSequence text, boolean isEmpty) {
+                if (RegexUtil.isIDCode(text.toString())) {
+                    username = text.toString();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
 
+        pwEdt.addValidator(new METValidator("请填写密码") {
+            @Override
+            public boolean isValid(@NonNull CharSequence text, boolean isEmpty) {
+                if (text != null && text.length() > 0) {
+                    password = text.toString();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        loginBtn = (Button) findViewById(R.id.btn_login);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (usernameEdt.validate() && pwEdt.validate()) {
+                    login(username, password);
+                }
+            }
+        });
         if (!username.isEmpty() && !password.isEmpty()) {
             usernameEdt.setText(username);
             pwEdt.setText(password);
             login(username, password);
-        } else {
-            usernameEdt.addValidator(new METValidator("用户名格式不正确") {
-                @Override
-                public boolean isValid(@NonNull CharSequence text, boolean isEmpty) {
-                    if (RegexUtil.isIDCode(text.toString())) {
-                        username = text.toString();
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
-
-            pwEdt.addValidator(new METValidator("请填写密码") {
-                @Override
-                public boolean isValid(@NonNull CharSequence text, boolean isEmpty) {
-                    if (text != null && text.length() > 0) {
-                        password = text.toString();
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
-
-            loginBtn = (Button) findViewById(R.id.btn_login);
-
-            loginBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (usernameEdt.validate() && pwEdt.validate()) {
-                        login(username, password);
-                    }
-                }
-            });
         }
 
     }
@@ -128,13 +126,13 @@ public class LoginActivity extends AppCompatActivity {
                 User user = BmobUser.getCurrentUser(LoginActivity.this, User.class);
                 password = pw;
                 if (user.getType() == 0) {//教师
-                    if (isFirst == true) {
-                        //引导页。。
-
-                        //加载数据 启动一个 Service
+//                    if (isFirst == true) {
+//                        //引导页。。
+//
+//                        //加载数据 启动一个 Service
                         CourseManager.getInstance(getApplicationContext()).loadCourseByUserID(user.getObjectId());
 
-                    }
+//                    }
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 } else {//学生
                     if (isFirst == true) {

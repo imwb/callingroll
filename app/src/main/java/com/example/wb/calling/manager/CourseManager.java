@@ -127,6 +127,15 @@ public class CourseManager {
 
     }
 
+    public void clearSqlite(){
+        DbManager db = x.getDb(daoConfig);
+        try {
+            db.delete(getAllCouresFromSqlite());
+            db.delete(getOrder());
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * 获取数据库中所有课程
      *

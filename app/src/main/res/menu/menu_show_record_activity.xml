@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.BaseActivity$MainActivity">
+    <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="100"
+        android:title="action_delete"
+        android:icon="@drawable/ic_clear_black_24dp1"
+        app:showAsAction="ifRoom" />
+   
+</menu>

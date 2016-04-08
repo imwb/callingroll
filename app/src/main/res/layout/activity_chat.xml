@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.wb.calling.activity.ChatActivity">
+    <include layout="@layout/toolbar"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+    <ListView
+        android:id="@+id/lv_chat"
+        android:layout_below="@+id/mtoolbar"
+        android:layout_above="@+id/layout_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+    <LinearLayout
+        android:id="@+id/layout_edt"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/ToolBarColor">
+        <EditText
+            android:id="@+id/edt_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_normal"
+            android:ems="10"
+            android:singleLine="true"
+            android:textColor="@color/background_floating_material_dark"
+            android:hint="请输入消息"
+            android:imeOptions="flagNoExtractUi"
+            android:textSize="18sp"/>
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/chatbuttonbg"
+            android:layout_marginLeft="10dp"
+            android:text="发送"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -8,6 +8,8 @@ import cn.bmob.v3.datatype.BmobDate;
  */
 public class Record extends BmobObject {
     private String id;
+    private String teacherName;
+    private String courseClass;
     private String courseName;
     private String courseID;
     private String time;
@@ -35,6 +37,14 @@ public class Record extends BmobObject {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public String getCourseClass() {
+        return courseClass;
+    }
+
+    public void setCourseClass(String courseClass) {
+        this.courseClass = courseClass;
     }
 
     public String getCourseID() {
@@ -91,5 +101,13 @@ public class Record extends BmobObject {
 
     public void setCstatu2(Integer cstatu2) {
         this.cstatu2 = cstatu2;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 }

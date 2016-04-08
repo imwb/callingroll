@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 
 import com.example.wb.calling.R;
@@ -58,7 +57,6 @@ public class MyCourseActivity extends BaseActivity {
     private void initList() {
         courseLv = (SlideAndDragListView) findViewById(R.id.sdlv_course);
 
-        Log.d("course",courseList.toString());
         adapter = new CourseAdapter(this,courseList);
 
         final Menu menu = new Menu(new ColorDrawable(Color.WHITE), false, 0);//第2个参数表示滑动item是否能滑的过量(true表示过量，就像Gif中显示的那样；false表示不过量，就像QQ中的那样)

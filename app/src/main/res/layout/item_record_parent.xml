@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:paddingTop="5dp"
+    android:paddingLeft="30dp"
+    android:paddingRight="20dp"
+    >
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="软件程序设计"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textColor="@color/background_floating_material_dark"/>
+    <TextView
+        android:id="@+id/txt_class"
+        android:layout_below="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:text="20122011-20122013"
+        />
+    <TextView
+        android:id="@+id/txt_count1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/background_floating_material_dark"
+        android:text="4"/>
+
+
+</RelativeLayout>
+

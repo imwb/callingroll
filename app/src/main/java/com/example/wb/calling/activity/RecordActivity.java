@@ -19,6 +19,7 @@ public class RecordActivity extends BaseActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private MyPagerAdapter adapter;
+    private List<Fragment> frags;
 
 
     @Override
@@ -33,7 +34,7 @@ public class RecordActivity extends BaseActivity {
 
     private void initPager() {
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        List<Fragment> frags = new ArrayList<>();
+        frags = new ArrayList<>();
         frags.add(new RecordByCourseFrag());
         frags.add(new RecordByTimeFrag());
         adapter = new MyPagerAdapter(getSupportFragmentManager(),frags);
@@ -49,6 +50,7 @@ public class RecordActivity extends BaseActivity {
         mTabLayout.addTab(mTabLayout.newTab().setText("时间"));
 
     }
+
 }
 
 class MyPagerAdapter extends FragmentPagerAdapter {

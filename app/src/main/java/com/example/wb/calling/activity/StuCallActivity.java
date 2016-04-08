@@ -404,6 +404,8 @@ public class StuCallActivity extends BaseActivity {
 
                         @Override
                         public void done(BmobIMMessage msg, BmobException e) {
+
+                            Log.d("msg",msg.toString());
                             toast("已签到！");
                         }
                     });

@@ -76,6 +76,7 @@ public class CallCourseAdapter extends RecyclerView.Adapter<CallCourseAdapter.Vi
         }
         notifyItemMoved(fromPosition, toPosition);
         Collections.swap(orderdata,fromPosition,toPosition);
+        Collections.swap(data,fromPosition,toPosition);
         refreshSort();
     }
 
