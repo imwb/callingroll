@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,23 @@ public class StuMsgActivity extends BaseActivity {
         setContentView(R.layout.activity_stu_msg);
         initToolbar("消息");
         initMsg();
+    }
+
+    @Override
+    protected void initToolbar(String title) {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(title);
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        mToolbar.setNavigationOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setResult(1);
+                        finish();
+                    }
+                }
+        );
     }
 
     private void initMsg() {
@@ -69,13 +87,13 @@ public class StuMsgActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-
+        setResult(1);
         finish();
     }
 
     @Override
     public void finish() {
-        setResult(1);
+
         super.finish();
     }
 

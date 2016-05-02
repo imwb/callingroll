@@ -25,16 +25,22 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             >
-
-            <com.example.wb.calling.view.AvaterView
-                android:id="@+id/avater"
-                android:layout_above="@+id/txt_name"
+            <ImageView
                 android:layout_width="70dp"
                 android:layout_height="70dp"
+                android:layout_above="@+id/txt_name"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/avatar" />
+                android:src="@drawable/ic_person2"/>
+
+            <!--<com.example.wb.calling.view.AvaterView-->
+                <!--android:id="@+id/avater"-->
+                <!--android:layout_above="@+id/txt_name"-->
+                <!--android:layout_width="70dp"-->
+                <!--android:layout_height="70dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:src="@drawable/avatar" />-->
 
             <TextView
                 android:id="@+id/txt_name"

@@ -180,6 +180,7 @@ public class CallResultAdapter extends BaseAdapter {
     private int getDistance(Double longitude, Double latitude) {
         if (longitude != null && latitude != null) {
             float[] results = new float[3];
+            Log.d("callresult adapter","latitude:"+CallActivity.mlatitude+"    longitute:" + CallActivity.mlongitute);
             Location.distanceBetween(latitude, longitude, CallActivity.mlatitude, CallActivity.mlongitute, results);
             int distance = (int) Math.abs(results[0]);
             return distance;

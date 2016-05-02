@@ -24,7 +24,6 @@ import com.amap.api.location.AMapLocationListener;
 import com.bmob.BTPFileResponse;
 import com.bmob.BmobProFile;
 import com.bmob.btp.callback.LocalThumbnailListener;
-import com.bmob.btp.callback.UploadBatchListener;
 import com.bmob.btp.callback.UploadListener;
 import com.example.wb.calling.R;
 import com.example.wb.calling.manager.UserManager;
@@ -37,7 +36,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,6 +68,7 @@ public class StuCallActivity extends BaseActivity {
     private Double longitute;
     public ProgressDialog pd;
     private LocationManager mLocationManger;
+    private BmobIMConversation mc;
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
@@ -95,6 +94,7 @@ public class StuCallActivity extends BaseActivity {
     };
     public AMapLocationClientOption mLocationOption = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +110,7 @@ public class StuCallActivity extends BaseActivity {
 
         initToolbar("签到");
         //  initview();
+//        EventBus.getDefault().register(StuCallActivity.this);
     }
 
     private void initLocatoin() {
@@ -170,6 +171,7 @@ public class StuCallActivity extends BaseActivity {
             signBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     if (codeEdt.validate()) {
 
                         mCamera.takePicture(null, null, mPicture);
@@ -192,6 +194,7 @@ public class StuCallActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
+//        EventBus.getDefault().unregister(this);
         if (mCamera != null)
             mCamera.release();
         if (mLocationClient != null) {
@@ -201,10 +204,29 @@ public class StuCallActivity extends BaseActivity {
     }
 
     /**
-     * 上传图片
+     * 聊天消息接收事件
      *
-     * @param imgpath
+     * @param event
      */
+//    public void onEventMainThread(MessageEvent event) {
+//
+//        BmobIMMessage msg =event.getMessage();
+//        Log.d("stu call","接收到消息："+msg.getContent());
+//        if(mc!=null && event!=null && mc.getConversationId().equals(event.getConversation().getConversationId())){//如果是当前会话的消息
+//            String content = msg.getContent();
+//            toast(content);
+//            finish();
+//        }else{
+//            Log.d("stu call"," 其他信息");
+//        }
+//
+//    }
+
+        /**
+         * 上传图片
+         *
+         * @param imgpath
+         */
     private void uploadImg(String imgpath) {
         showdialog();
         BTPFileResponse response = BmobProFile.getInstance(this).upload(imgpath, new UploadListener() {
@@ -216,7 +238,15 @@ public class StuCallActivity extends BaseActivity {
                 // fileName ：文件名（带后缀），这个文件名是唯一的，开发者需要记录下该文件名，方便后续下载或者进行缩略图的处理
                 // url        ：文件地址
                 // file        :BmobFile文件类型，`V3.4.1版本`开始提供，用于兼容新旧文件服务。
-                mfilename = fileName;
+
+                mfilename = "";
+                mfileUrl = "";
+                mthumname = fileName;
+                mthumbUrl = file.getUrl();
+                Log.i("bmob", "缩略图传成功：" + mthumname + ",可访问的文件地址：" + mthumbUrl);
+                sendMessage(mfilename, mfileUrl, mthumname, mthumbUrl);
+                pd.dismiss();
+
             }
 
             @Override
@@ -261,7 +291,11 @@ public class StuCallActivity extends BaseActivity {
             public void onSuccess(String thumbnailPath) {
                 // TODO Auto-generated method stub
                 mthumpath = thumbnailPath;
-                uploadBatchFile();
+                //上传 原图和缩略图
+//                uploadBatchFile();
+                //只上传缩略图
+                uploadImg(mthumpath);
+
             }
         });
     }
@@ -273,43 +307,43 @@ public class StuCallActivity extends BaseActivity {
      * @Title: updateBatchFile
      * @Description: 文件批量上传
      */
-    private void uploadBatchFile() {
-        showdialog();
-        String[] files = new String[]{imgpath, mthumpath};
-        BmobProFile.getInstance(StuCallActivity.this).uploadBatch(files, new UploadBatchListener() {
-
-            @Override
-            public void onSuccess(boolean isFinish, String[] fileNames, String[] urls, BmobFile[] files) {
-                // TODO Auto-generated method stub
-                if (isFinish) {
-
-                    mfilename = files[0].getFilename();
-                    mfileUrl = files[0].getUrl();
-                    mthumname = files[1].getFilename();
-                    mthumbUrl = files[1].getUrl();
-                    Log.i("bmob", "文件上传成功：" + mfilename + ",可访问的文件地址：" + mfileUrl);
-                    Log.i("bmob", "缩略图传成功：" + mthumname + ",可访问的文件地址：" + mthumbUrl);
-                    sendMessage(mfilename, mfileUrl, mthumname, mthumbUrl);
-                    pd.dismiss();
-                }
-                Log.d("upload", "NewBmobFileActivity -onSuccess :" + isFinish + "-----" + Arrays.asList(fileNames) + "----" + Arrays.asList(urls) + "----" + Arrays.asList(files));
-            }
-
-            @Override
-            public void onProgress(int curIndex, int curPercent, int total, int totalPercent) {
-                // TODO Auto-generated method stub
-                pd.setProgress(curPercent);
-            }
-
-            @Override
-            public void onError(int statuscode, String errormsg) {
-                // TODO Auto-generated method stub
-                Log.d("upload", "NewBmobFileActivity -onError :" + statuscode + "--" + errormsg);
-                pd.dismiss();
-                toast("上传出错：" + errormsg);
-            }
-        });
-    }
+//    private void uploadBatchFile() {
+//        showdialog();
+//        String[] files = new String[]{imgpath, mthumpath};
+//        BmobProFile.getInstance(StuCallActivity.this).uploadBatch(files, new UploadBatchListener() {
+//
+//            @Override
+//            public void onSuccess(boolean isFinish, String[] fileNames, String[] urls, BmobFile[] files) {
+//                // TODO Auto-generated method stub
+//                if (isFinish) {
+//
+//                    mfilename = files[0].getFilename();
+//                    mfileUrl = files[0].getUrl();
+//                    mthumname = files[1].getFilename();
+//                    mthumbUrl = files[1].getUrl();
+//                    Log.i("bmob", "文件上传成功：" + mfilename + ",可访问的文件地址：" + mfileUrl);
+//                    Log.i("bmob", "缩略图传成功：" + mthumname + ",可访问的文件地址：" + mthumbUrl);
+//                    sendMessage(mfilename, mfileUrl, mthumname, mthumbUrl);
+//                    pd.dismiss();
+//                }
+//                Log.d("upload", "NewBmobFileActivity -onSuccess :" + isFinish + "-----" + Arrays.asList(fileNames) + "----" + Arrays.asList(urls) + "----" + Arrays.asList(files));
+//            }
+//
+//            @Override
+//            public void onProgress(int curIndex, int curPercent, int total, int totalPercent) {
+//                // TODO Auto-generated method stub
+//                pd.setProgress(curPercent);
+//            }
+//
+//            @Override
+//            public void onError(int statuscode, String errormsg) {
+//                // TODO Auto-generated method stub
+//                Log.d("upload", "NewBmobFileActivity -onError :" + statuscode + "--" + errormsg);
+//                pd.dismiss();
+//                toast("上传出错：" + errormsg);
+//            }
+//        });
+//    }
 
 
     private void showdialog() {
@@ -382,21 +416,21 @@ public class StuCallActivity extends BaseActivity {
             @Override
             public void done(BmobIMConversation c, BmobException e) {
                 if (e == null) {
-                    BmobIMConversation im;
-                    im = BmobIMConversation.obtain(BmobIMClient.getInstance(), c);
+
+                    mc = BmobIMConversation.obtain(BmobIMClient.getInstance(), c);
                     BmobIMTextMessage msg = new BmobIMTextMessage();
                     msg.setContent(code);
                     Map<String, Object> map = new HashMap<>();
                     map.put("username", UserManager.getInstance(getApplicationContext()).getuserInfo().getUsername());
                     map.put("name", UserManager.getInstance(getApplicationContext()).getuserInfo().getName());
-                    map.put("filename", fileName);
-                    map.put("fileUrl", fileUrl);
+//                    map.put("filename", fileName);
+//                    map.put("fileUrl", fileUrl);
                     map.put("thumbName", thumbName);
                     map.put("thumbUrl", thumbUrl);
                     map.put("latitude", latitude);
                     map.put("longitude", longitute);
                     msg.setExtraMap(map);
-                    im.sendMessage(msg, new MessageSendListener() {
+                    mc.sendMessage(msg, new MessageSendListener() {
                         @Override
                         public void onStart(BmobIMMessage msg) {
                             super.onStart(msg);
@@ -404,9 +438,11 @@ public class StuCallActivity extends BaseActivity {
 
                         @Override
                         public void done(BmobIMMessage msg, BmobException e) {
-
                             Log.d("msg",msg.toString());
-                            toast("已签到！");
+                            BmobIM.getInstance().deleteConversation(mc);
+                            toast("已发送！");
+                            finish();
+
                         }
                     });
                 } else {

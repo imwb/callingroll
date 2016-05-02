@@ -19,10 +19,13 @@ import com.example.wb.calling.entry.RecordItem;
 import com.example.wb.calling.entry.User;
 import com.example.wb.calling.manager.CourseManager;
 
+import net.sf.json.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 
 import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.newim.event.OfflineMessageEvent;
 import cn.bmob.v3.BmobQuery;
@@ -194,8 +197,23 @@ public class StuMainActivity extends AppCompatActivity implements View.OnClickLi
      * 2、开发者获取到信息后，可调用SDK内部提供的方法更新会话
      */
     public void onEventMainThread(final MessageEvent event){
-        msgImg.setImageResource(R.drawable.ic_new_msg_black_24dp);
-        Log.d(TAG,"msg" + event);
+        BmobIMMessage msg = event.getMessage();
+        String extra = msg.getExtra();
+        if(extra != null && extra !=""){
+            JSONObject object = JSONObject.fromObject(extra);
+            String type = object.getString("type");
+            if(type.equals("msg"));{//消息发来的信息
+                msgImg.setImageResource(R.drawable.ic_new_msg_black_24dp);
+                Log.d(TAG,"msg" + event);
+            }
+            if(type.equals("callresult")){//点名结果
+                Toast.makeText(this,msg.getContent(),Toast.LENGTH_LONG).show();
+            }
+
+
+
+        }
+
     }
     @Override
     public void onBackPressed() {

@@ -150,6 +150,7 @@ public class ChatActivity extends BaseActivity {
                 //可设置额外信息
                 final Map<String, Object> map = new HashMap<>();
                 map.put("courseId", courseId);//随意增加信息
+                map.put("type","msg");
                 msg.setExtraMap(map);
                 final MsgRecord tmsg = new MsgRecord();
                 tmsg.setCourseId(courseId);

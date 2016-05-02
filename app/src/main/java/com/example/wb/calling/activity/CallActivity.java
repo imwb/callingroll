@@ -15,6 +15,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
@@ -41,6 +42,8 @@ import net.sf.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import cn.bmob.newim.BmobIM;
@@ -107,6 +110,8 @@ public class CallActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //保持屏幕不进入休眠
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_call);
         Intent intent = getIntent();
         if (intent != null) {
@@ -114,8 +119,8 @@ public class CallActivity extends BaseActivity {
             cou_name = intent.getStringExtra("cou_name");
             cou_class = intent.getStringExtra("cou_class");
         }
-        initToolbar("点名" + cou_name);
         initLocatoin();
+        initToolbar("点名" + cou_name);
         initView();
     }
 
@@ -185,7 +190,7 @@ public class CallActivity extends BaseActivity {
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         mLocationOption.setMockEnable(false);
         //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(2000);
+        mLocationOption.setInterval(60000);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
@@ -210,27 +215,27 @@ public class CallActivity extends BaseActivity {
                 callBtn.setVisibility(View.GONE);
                 callingTxt.setVisibility(View.VISIBLE);
                 timeView.setVisibility(View.VISIBLE);
-                timeView.start(3000);
+                timeView.start(60000);
                 EventBus.getDefault().register(CallActivity.this);
                 timeView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
                     @Override
                     public void onEnd(CountdownView cv) {
-                        EventBus.getDefault().unregister(this);
+                        EventBus.getDefault().unregister(CallActivity.this);
                         callingTxt.setVisibility(View.GONE);
                         toast("时间到了");
                         setContentView(R.layout.activity_call_result);
                         initToolbar("点名结果");
-                        RecordItem record = new RecordItem();
-                        record.setStu_num("2012201232");
-                        record.setStu_name("张宇");
-                        record.setStatus(0);
-                        record.setFileUrl("http://file.bmob.cn/M03/EA/07/oYYBAFbs4JKAOuBQABM8lrSVYBI057.jpg");
-                        record.setThumbUrl("http://file.bmob.cn/M03/EA/07/oYYBAFbs4JSAQGeFAAD1-D-qicQ908.jpg");
-                        record.setLatitude(45.776007);
-                        record.setLongitude(126.683592);
-                        record.setPraise(0);
-                        record.setCourseName(cou_name);
-                        records.add(record);
+//                        RecordItem record = new RecordItem();
+//                        record.setStu_num("2012201232");
+//                        record.setStu_name("张宇");
+//                        record.setStatus(0);
+//                        record.setFileUrl("http://file.bmob.cn/M03/EA/07/oYYBAFbs4JKAOuBQABM8lrSVYBI057.jpg");
+//                        record.setThumbUrl("http://file.bmob.cn/M03/EA/07/oYYBAFbs4JSAQGeFAAD1-D-qicQ908.jpg");
+//                        record.setLatitude(45.776007);
+//                        record.setLongitude(126.683592);
+//                        record.setPraise(0);
+//                        record.setCourseName(cou_name);
+//                        records.add(record);
                         recordLV = (SlideAndDragListView) findViewById(R.id.sdlv_result);
                         recordLV.setOnTouchListener(new ShowHideOnScroll(mToolbar));
 
@@ -254,6 +259,7 @@ public class CallActivity extends BaseActivity {
     protected void onResume() {
 
         super.onResume();
+
         Log.d("activity", "onresume");
     }
 
@@ -280,6 +286,10 @@ public class CallActivity extends BaseActivity {
      */
     public void onEventMainThread(MessageEvent event) {
         BmobIMMessage msg = event.getMessage();
+        BmobIMTextMessage returnmsg = new BmobIMTextMessage();
+        Map<String,Object> map = new HashMap<>();
+        map.put("type","callresult");
+
         Log.d("msg2", msg.toString());
         String content = msg.getContent();
         if (content.equals(code)) {//验证码正确
@@ -290,30 +300,37 @@ public class CallActivity extends BaseActivity {
             JSONObject object = JSONObject.fromObject(extra);
             String username = object.getString("username");
             String name = object.getString("name");
-            String fileName = object.getString("filename");
-//            String fileName = "2fda2eff6efe4db6aaf47caf365583ae.jpg";
-            String fileUrl = object.getString("fileUrl");
+//            String fileName = object.getString("filename");
+////            String fileName = "2fda2eff6efe4db6aaf47caf365583ae.jpg";
+//            String fileUrl = object.getString("fileUrl");
             String thumbName = object.getString("thumbName");
             String thumbUrl = object.getString("thumbUrl");
             Double longitude = object.getDouble("longitude");
             Double latitude = object.getDouble("latitude");
             //latitude=45.776007 longitude=126.683592
-            Log.d("location", longitude + "  " + latitude);
 //            String thumbUrl = object.getString("thumbUrl");
             record.setStu_id(msg.getFromId());
             record.setStu_num(username);
             record.setStu_name(name);
             record.setStatus(0);
-            record.setFilename(fileName);
-            record.setFileUrl(fileUrl);
+//            record.setFilename(fileName);
+//            record.setFileUrl(fileUrl);
             record.setThumbName(thumbName);
+            //http:\/\/newfile.codenow.cn:8080\/5926e42d26a0482e923769a77e8e7963.jpg
             record.setThumbUrl(thumbUrl);
             record.setPraise(0);
             record.setCourseName(cou_name);
+            record.setLatitude(latitude);
+            record.setLongitude(longitude);
             records.add(record);
 
+            returnmsg.setContent("点名成功！");
+            returnmsg.setExtraMap(map);
+            event.getConversation().sendMessage(returnmsg);
         } else {
-            sendMessage(msg.getFromId(), "验证码错误！");
+            returnmsg.setContent("验证码错误！");
+            returnmsg.setExtraMap(map);
+            event.getConversation().sendMessage(returnmsg);
         }
 
 
@@ -362,9 +379,8 @@ public class CallActivity extends BaseActivity {
     }
 
     private String getRandomCode() {
-        char[] str = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-                'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-                'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        char[] str = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+                'x', 'y', 'z', '0', '2', '3', '4', '5', '6', '7', '8', '9'};
         StringBuffer code = new StringBuffer("");
         final int maxNum = 36;
         int count = 0;
@@ -587,6 +603,8 @@ public class CallActivity extends BaseActivity {
                         .setPositiveButton("保存", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                if(records.get(itemPosition).getPraise() == null)
+                                      records.get(itemPosition).setPraise(0);
                                 if (cb1.isChecked())
                                     records.get(itemPosition).setPraise(records.get(itemPosition).getPraise() + 10);
                                 if (cb2.isChecked())
